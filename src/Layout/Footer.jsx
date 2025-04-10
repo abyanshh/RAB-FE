@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const FooterLayout = ({ children }) => {
   return (
     <>
-    <footer className="bg-gray-100 text-cyan-700 mt-10">
+    <footer className="bg-gray-100 text-cyan-700">
     <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-4 gap-10 text-sm">
       {children}
     </div>

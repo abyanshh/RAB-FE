@@ -4,7 +4,7 @@ import MainLayout from '../Layout/MainLayout'
 const Login = () => {
   return (
     <MainLayout>
-      <LoginForm />
+        <LoginForm />
     </MainLayout>
   )
 }

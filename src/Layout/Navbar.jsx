@@ -4,8 +4,8 @@ import Button from '../components/Button'
 import Logo from '/image/RAB.png'
 const Navbar = () => {
   return (
-    <nav className="sticky top-0 bg-white border-b-4 border-cyan-600 shadow-md">
-    <div className='max-w-6xl mx-auto flex px-4 py-4 justify-between items-center'>
+    <nav className="fixed top-0 w-full bg-white border-b-4 border-cyan-600 shadow-md">
+    <div className='max-w-6xl mx-auto flex px-4 py-3 justify-between items-center'>
        <div>
           <img
             src={Logo}
