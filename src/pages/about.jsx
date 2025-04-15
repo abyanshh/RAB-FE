@@ -5,7 +5,7 @@ import heroImage2 from '/image/2222.png'
 const Home = () => {
   return (
     <MainLayout>
-    <section className="min-h-screen py-20">
+    <section className="min-h-screen py-8">
       <div className="max-w-6xl mx-auto px-4 flex flex-col-reverse md:flex-row items-center gap-10">
         
         {/* Text */}
