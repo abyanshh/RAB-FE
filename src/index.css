@@ -4,12 +4,17 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #0a0a0a;
   background-color: #FFFFFF;
 }
 
 @theme {
+
+  /* Tailwind CSS color palette */
   --color-primary-500: #005EB8;
+
+  /* Custom radius  */
+  --radius-2xl: 2rem;
 }
 

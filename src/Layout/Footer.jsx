@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom'
 const FooterLayout = ({ children }) => {
   return (
     <>
-    <footer className="bg-gray-100 text-cyan-700">
+    <footer className="shadow-2xl text-cyan-800">
     <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-4 gap-10 text-sm">
       {children}
     </div>
-    <div className="py-4 text-center text-xs text-gray-500">
+    <div className="py-4 bg-cyan-50 text-center text-xs text-gray-500">
       © {new Date().getFullYear()} RuangAmanBersama. All rights reserved.
     </div>
     </footer>

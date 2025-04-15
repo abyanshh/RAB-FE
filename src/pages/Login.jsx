@@ -1,4 +1,3 @@
-import React from 'react'
 import LoginForm from '../components/AuthComponents/LoginForm'
 import MainLayout from '../Layout/MainLayout'
 const Login = () => {
