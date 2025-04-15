@@ -6,7 +6,7 @@ const Error = () => {
     console.error(error);
     return (
       <MainLayout>
-        <div className="flex justify-center min-h-screen items-center flex-col">
+        <div className="flex justify-center min-h-100 items-center flex-col">
             <h1 className="text-3xl font-bold mb-2">Oops!</h1>
             <div className="font-medium text-center text-slate-500">
                 <p>Sorry, an unexpected error has occurred.</p>
