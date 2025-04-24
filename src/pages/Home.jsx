@@ -18,9 +18,9 @@ const phrases = [
 const disorders = [
   {
     name: "Eating Disorder",
-    img: 'https://img.freepik.com/free-photo/depressed-woman-hungry-from-dieting_1150-44266.jpg?t=st=1744478596~exp=1744482196~hmac=f9e993d14f9f328fab944a3f7a225f9f2eb00efc7e39e3eca0fe76379d4fa605&w=1380',
+    img: 'https://img.freepik.com/free-vector/eating-disorder-concept-illustration_114360-8026.jpg?t=st=1745288015~exp=1745291615~hmac=1617663ec9928cb0d367bb211b59e76885629f6344b660ff3db56e73b9eefb6e&w=900',
     description:
-      "lorem ipsum dolor sit amet.",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, veritatis itaque impedit nesciunt ullam, minus sunt labore quod laudantium aspernatur distinctio, perferendis accusantium maxime voluptatum molestiae eum nam dolorum et!",
   },
   {
     name: "Depression",
@@ -149,16 +149,16 @@ const SecondSection = () => {
   const [selected, setSelected] = useState(disorders[0]);
   return (
     <section className="flex flex-col max-w-6xl mx-auto items-center bg-white py-20 gap-10">
-      <h1 className="text-2xl font-semibold text-cyan-800 text-center">
-        Jenis-Jenis Gangguan Mental
+      <h1 className="text-2xl font-semibold text-cyan-800 text-centers">
+        Kenali Jenis-Jenis Gangguan Mental
       </h1>
       <p className="text-center max-w-3xl text-slate-500">
         Gangguan mental memiliki berbagai jenis, mulai dari yang ringan hingga berat. 
         Setiap jenis memiliki gejala dan penanganan yang berbeda, namun semuanya penting untuk dikenali dan ditangani dengan tepat.
       </p>
 
-      <div className="flex flex-col md:flex-row gap-10 max-w-4xl items-start">
-        <ul className="overflow-y-auto max-h-70 flex flex-col mx-auto">
+      <div className="flex flex-col md:flex-row gap-10 max-w-4xl w-full mx-auto">
+        <ul className="overflow-y-auto max-h-70 flex flex-col w-full md:w-auto mx-auto">
           {disorders.map((item, index) => (
             <Button
               key={index}
@@ -178,7 +178,7 @@ const SecondSection = () => {
           ))}
         </ul>
 
-        <div className="flex-1 bg-gray-50 p-6 rounded-xl shadow-md mx-auto">
+        <div className="flex-1 bg-gray-50 p-6 rounded-xl shadow-md">
           <img
             src={selected.img}
             alt={selected.name}

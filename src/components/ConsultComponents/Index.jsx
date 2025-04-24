@@ -5,6 +5,7 @@ import SearchFilter from "./SearchFilter"
 import SortDropdown from "./SortDropdown"
 import SpecialtyFilter from "./SpecialtyFilter"
 import DoctorConsult  from "./DoctorConsult"
+import Button from "../Button"
 
 const specialties = [
   "All Specialties",
@@ -24,6 +25,7 @@ export default function ConsultPage() {
   const [bookingSuccess, setBookingSuccess] = useState(false)
   const [sortBy, setSortBy] = useState("rating")
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [user, setUser] = useState(false);
 
   // Filter doctors based on search term and specialty
   const filteredDoctors = doctors.filter((doctor) => {
@@ -49,6 +51,10 @@ export default function ConsultPage() {
     console.log("Day:", selectedDay)
     console.log("Time:", selectedTime)
     setBookingSuccess(true)
+    setTimeout(() => {
+      setIsModalOpen(false)
+      setBookingSuccess(false)
+    }, 3000)
   }
 
   const openBookingDialog = (doctor) => {
@@ -66,9 +72,14 @@ export default function ConsultPage() {
 
   return (
     <div className="max-w-6xl mx-auto py-8 px-4">
-      <div className="mb-6 text-cyan-800">
-        <h1 className="text-3xl font-bold mb-2">Konsultasi Dokter</h1>
-        <p className="text-md font-semibold">Konsultasi Dengan Dokter Terbaik Kami Disini</p>
+      <div className="flex mb-6 text-cyan-800 justify-between items-center">
+        <div>
+            <h1 className="text-3xl font-bold mb-2">Konsultasi Dokter</h1>
+            <p className="text-md font-semibold">Konsultasi Dengan Dokter Terbaik Kami Disini</p>
+        </div>
+        <Button as = "link" to={user ? "/schedulelist" : "/login"} variant="blue" className="rounded-md">
+            My Schedule
+        </Button>
       </div>
 
       {/* Search and Filter Section */}
