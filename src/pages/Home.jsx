@@ -20,31 +20,31 @@ const disorders = [
     name: "Eating Disorder",
     img: 'https://img.freepik.com/free-vector/eating-disorder-concept-illustration_114360-8026.jpg?t=st=1745288015~exp=1745291615~hmac=1617663ec9928cb0d367bb211b59e76885629f6344b660ff3db56e73b9eefb6e&w=900',
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, veritatis itaque impedit nesciunt ullam, minus sunt labore quod laudantium aspernatur distinctio, perferendis accusantium maxime voluptatum molestiae eum nam dolorum et!",
+      "Eating disorder adalah gangguan kesehatan mental yang ditandai dengan pola makan yang tidak sehat, seperti membatasi makan secara ekstrem, makan berlebihan, atau perilaku kompensasi seperti memuntahkan makanan. Gangguan ini dapat berdampak serius pada kesehatan fisik dan mental, serta membutuhkan penanganan medis dan psikologis.",
   },
   {
     name: "Depression",
     img: 'https://img.freepik.com/free-photo/young-man-having-headache-holding-his-head-pain-home_637285-5905.jpg?ga=GA1.1.355272737.1698826452&semt=ais_hybrid&w=740',
     description:
-      "lorem ipsum dolor sit amet.",
+      "Depresi adalah gangguan suasana hati yang menyebabkan perasaan sedih terus-menerus, kehilangan minat, dan penurunan energi. Kondisi ini bisa memengaruhi cara seseorang berpikir, merasa, dan menjalani aktivitas sehari-hari.",
   },
   {
     name: "Anxiety",
     img: 'https://img.freepik.com/free-vector/business-woman-is-holding-her-hair-stress-work-hand-drawn-style-vector-design-illustrations_1150-39771.jpg?ga=GA1.1.355272737.1698826452&semt=ais_hybrid&w=740',
     description:
-      "lorem ipsum dolor sit amet.",
+      "Anxiety atau gangguan kecemasan adalah kondisi ketika seseorang merasa cemas berlebihan, khawatir, atau takut secara terus-menerus tanpa alasan yang jelas. Gejala bisa berupa detak jantung cepat, sulit tidur, dan rasa gelisah. ",
   },
   {
     name: "Bipolar Disorder",
     img: 'https://img.freepik.com/free-vector/personality-disorder-concept-illustration_114360-3560.jpg?ga=GA1.1.355272737.1698826452&semt=ais_hybrid&w=740',
     description:
-      "lorem ipsum dolor sit amet.",
+      "Bipolar Disorder adalah gangguan mental yang ditandai dengan perubahan suasana hati ekstrem, dari episode mania (sangat bersemangat dan impulsif) ke depresi (sangat sedih dan putus asa).",
   },
   {
     name: "Sleep Disorder",
     img: 'https://img.freepik.com/free-vector/insomnia-concept-illustration_114360-3684.jpg?t=st=1744478891~exp=1744482491~hmac=a581114f66e226a38d9133b88578fde68e78cabb8098c5af327c71ed41c2e442&w=900',
     description:
-      "lorem ipsum dolor sit amet.",
+      "Sleep Disorder adalah gangguan yang memengaruhi kualitas, durasi, atau waktu tidur seseorang. Contohnya termasuk insomnia, sleep apnea, dan mimpi buruk kronis. Gangguan ini dapat berdampak pada kesehatan fisik dan mental jika tidak ditangani.",
   },
 ];
 
