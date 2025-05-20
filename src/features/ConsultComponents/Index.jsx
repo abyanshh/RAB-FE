@@ -1,24 +1,15 @@
 import { useState } from "react"
-import { doctors } from "./doctors"
+import { doctors, specialties, categories } from "./doctors"
 import DoctorModal from "./DoctorModal"
-import SearchFilter from "./SearchFilter"
-import SortDropdown from "./SortDropdown"
-import SpecialtyFilter from "./SpecialtyFilter"
+import SearchFilter from "../../components/SearchFilter"
+import SortDropdown from "../../components/SortDropdown"
 import DoctorConsult  from "./DoctorConsult"
-import Button from "../Button"
-
-const specialties = [
-  "All Specialties",
-  "Psikiater",
-  "Psikolog Klinis",
-  "Psikolog Anak & Remaja",
-  "Psikolog Dewasa",
-  "Konselor Pernikahan & Keluarga",
-];
+import Button from "../../components/Button"
+import CategoryFilter from "../../components/CategoryFilter"
 
 export default function ConsultPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [selectedSpecialty, setSelectedSpecialty] = useState("All Specialties")
+  const [selectedSpecialty, setSelectedSpecialty] = useState("Semua Spesialis")
   const [selectedDoctor, setSelectedDoctor] = useState(null)
   const [selectedDay, setSelectedDay] = useState("")
   const [selectedTime, setSelectedTime] = useState("")
@@ -30,7 +21,7 @@ export default function ConsultPage() {
   // Filter doctors based on search term and specialty
   const filteredDoctors = doctors.filter((doctor) => {
     const matchesSearch = doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesSpecialty = selectedSpecialty === "All Specialties" || doctor.specialty === selectedSpecialty
+    const matchesSpecialty = selectedSpecialty === "Semua Spesialis" || doctor.specialty === selectedSpecialty
     return matchesSearch && matchesSpecialty
   })
 
@@ -86,17 +77,18 @@ export default function ConsultPage() {
       <div className="bg-white rounded-lg shadow-md p-4 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <SearchFilter 
-            searchTerm={searchTerm} 
-            setSearchTerm={setSearchTerm} 
+            value={searchTerm} 
+            onChange={(e) => setSearchTerm(e.target.value)} 
           />
-          <SpecialtyFilter
-            selectedSpecialty={selectedSpecialty}
-            setSelectedSpecialty={setSelectedSpecialty}
-            specialties={specialties}
+          <CategoryFilter
+            value={selectedSpecialty}
+            onChange={(e) => setSelectedSpecialty(e.target.value)}
+            options={specialties}
           />
           <SortDropdown 
             sortBy={sortBy} 
             setSortBy={setSortBy} 
+            categories={categories}
           />
         </div>
       </div>

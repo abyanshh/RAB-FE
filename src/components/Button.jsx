@@ -41,6 +41,15 @@ const Button = ({
       hover:text-orange-600
       py-2 px-4
     `,
+    red: `
+      border 
+      bg-white 
+      text-red-600 
+      border-red-500 
+      hover:bg-red-100 
+      hover:text-red-800
+      py-2 px-4
+    `,
     blue: `
       border 
       bg-white 

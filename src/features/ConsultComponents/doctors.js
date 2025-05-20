@@ -95,3 +95,18 @@ export const doctors = [
     price: "Rp 420.000",
   },
 ];
+
+export const specialties = [
+  "Semua Spesialis",
+  "Psikiater",
+  "Psikolog Klinis",
+  "Psikolog Anak & Remaja",
+  "Psikolog Dewasa",
+  "Konselor Pernikahan & Keluarga",
+];
+
+export const categories = [
+  { value: "rating", label: "Rating Tertinggi" },
+  { value: "experience", label: "Pengalaman Terbanyak" },
+  { value: "price", label: "Harga Terendah" },
+];

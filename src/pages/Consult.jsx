@@ -1,5 +1,5 @@
 import MainLayout from "../Layout/MainLayout"
-import ConsultPages from "../components/ConsultComponents/Index"
+import ConsultPages from "../features/ConsultComponents/Index"
 
 export default function Consult() {
   return (

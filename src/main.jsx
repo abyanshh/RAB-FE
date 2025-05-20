@@ -10,6 +10,10 @@ import AboutUs from './pages/about.jsx'
 import Consult from './pages/Consult.jsx'
 import Forum from './pages/Forum.jsx'
 import ChatBot from './pages/ChatBot.jsx'
+import Profile from './pages/Profile.jsx'
+import ProfilSaya from './features/ProfileComponents/ProfilSaya.jsx'
+import JadwalSaya from './features/ProfileComponents/JadwalSaya.jsx'
+import ThreadSaya from './features/ProfileComponents/ThreadSaya.jsx'
 
 const router = createBrowserRouter([
   {
@@ -40,6 +44,15 @@ const router = createBrowserRouter([
   {
     path: "/chatbot",
     element: <ChatBot />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+    children: [
+      { index: true, element: <ProfilSaya /> },
+      { path: "schedule", element: <JadwalSaya /> },
+      { path: "threads", element: <ThreadSaya /> },
+    ],
   },
 ])
 

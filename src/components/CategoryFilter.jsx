@@ -1,18 +1,18 @@
-export default function SpecialtyFilter({
-  selectedSpecialty,
-  setSelectedSpecialty,
-  specialties,
+export default function CategoryFilter({
+  value,
+  onChange,
+  options,
 }) {
   return (
     <div className="relative">
       <select
         className="w-full px-4 py-2 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-        value={selectedSpecialty}
-        onChange={(e) => setSelectedSpecialty(e.target.value)}
+        value={value}
+        onChange={onChange}
       >
-        {specialties.map((specialty) => (
-          <option key={specialty} value={specialty}>
-            {specialty}
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
           </option>
         ))}
       </select>
