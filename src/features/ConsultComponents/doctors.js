@@ -1,14 +1,32 @@
+export const doctor = [
+  {
+    "doctor_id": "3476ada7-f765-4f40-86b8-dec222e1cf2d",
+    "full_name": "Dr. Intan Maulani",
+    "specialization": "Pediatrics",
+    "bio": "Pediatrician focused on child development and immunization programs.",
+    "email": "intan.maulani@example.com",
+    "phone_number": "081223344556",
+    "avatar_url": "https://example.com/images/intan.jpg",
+    "location": "Yogyakarta",
+    "available_days": ["Monday", "Tuesday", "Friday"],
+    "created_at": "2025-05-21T04:35:24.405Z",
+    "average_rating": "0.0",
+    "total_reviews": 0
+  }
+];
+
 export const doctors = [
   {
     id: 1,
-    name: "Dr. Anita Dewi",
-    specialty: "Psikiater",
+    full_name: "Dr. Anita Dewi",
+    specialization: "Psikiater",
+    bio: "Experienced psychiatrist specializing in mood and anxiety disorders.",
     rating: 4.9,
     reviews: 134,
     experience: "14 tahun",
     location: "Mental Wellness Center, Jakarta",
     image: "/image/image.png",
-    availability: [
+    available_days: [
       { day: "Senin", slots: ["13:00", "14:00", "15:00"] },
       { day: "Rabu", slots: ["09:00", "10:00", "11:00"] },
       { day: "Jumat", slots: ["14:00", "15:00"] },
@@ -17,14 +35,15 @@ export const doctors = [
   },
   {
     id: 2,
-    name: "Dr. Reza Pratama",
-    specialty: "Psikolog Klinis",
+    full_name: "Dr. Reza Pratama",
+    specialization: "Psikolog Klinis",
+    bio: "Clinical psychologist with a focus on cognitive behavioral therapy.",
     rating: 4.8,
     reviews: 120,
     experience: "10 tahun",
     location: "Klinik Sehat Jiwa, Bandung",
     image: "/image/image.png",
-    availability: [
+    available_days: [
       { day: "Selasa", slots: ["10:00", "11:00", "14:00"] },
       { day: "Kamis", slots: ["09:00", "10:00"] },
       { day: "Sabtu", slots: ["11:00", "12:00"] },
@@ -33,14 +52,15 @@ export const doctors = [
   },
   {
     id: 3,
-    name: "Dr. Intan Maharani",
-    specialty: "Psikolog Anak & Remaja",
+    full_name: "Dr. Intan Maharani",
+    specialization: "Psikolog Anak & Remaja",
+    bio: "Child and adolescent psychologist focusing on developmental disorders.",
     rating: 4.9,
     reviews: 98,
     experience: "8 tahun",
     location: "Ruang Peduli, Yogyakarta",
     image: "/image/image.png",
-    availability: [
+    available_days: [
       { day: "Senin", slots: ["09:00", "10:00", "11:00"] },
       { day: "Rabu", slots: ["13:00", "14:00"] },
       { day: "Jumat", slots: ["09:00", "10:00"] },
@@ -49,14 +69,15 @@ export const doctors = [
   },
   {
     id: 4,
-    name: "Dr. Andi Saputra",
-    specialty: "Konselor Pernikahan & Keluarga",
+    full_name: "Dr. Andi Saputra",
+    specialization: "Konselor Pernikahan & Keluarga",
+    bio: "Marriage and family counselor with expertise in conflict resolution.",
     rating: 4.7,
     reviews: 89,
     experience: "12 tahun",
     location: "Konseling Harmoni, Surabaya",
     image: "/image/image.png",
-    availability: [
+    available_days: [
       { day: "Selasa", slots: ["13:00", "14:00", "15:00"] },
       { day: "Kamis", slots: ["10:00", "11:00", "12:00"] },
     ],
@@ -64,14 +85,15 @@ export const doctors = [
   },
   {
     id: 5,
-    name: "Dr. Maya Lestari",
-    specialty: "Psikolog Dewasa",
+    full_name: "Dr. Maya Lestari",
+    specialization: "Psikolog Dewasa",
+    bio: "Adult psychologist specializing in stress management and therapy.",
     rating: 4.8,
     reviews: 110,
     experience: "11 tahun",
     location: "MindCare Center, Jakarta",
     image: "/image/image.png",
-    availability: [
+    available_days: [
       { day: "Senin", slots: ["10:00", "11:00"] },
       { day: "Rabu", slots: ["14:00", "15:00", "16:00"] },
       { day: "Sabtu", slots: ["09:00", "10:00"] },
@@ -80,14 +102,15 @@ export const doctors = [
   },
   {
     id: 6,
-    name: "Dr. Dimas Nugroho",
-    specialty: "Psikolog Klinis",
+    full_name: "Dr. Dimas Nugroho",
+    specialization: "Psikolog Klinis",
+    bio: "Clinical psychologist with a focus on trauma recovery and resilience.",
     rating: 4.9,
     reviews: 145,
     experience: "13 tahun",
     location: "Ruang Aman, Malang",
     image: "/image/image.png",
-    availability: [
+    available_days: [
       { day: "Selasa", slots: ["09:00", "10:00"] },
       { day: "Kamis", slots: ["13:00", "14:00"] },
       { day: "Sabtu", slots: ["10:00", "11:00", "12:00"] },
@@ -103,6 +126,7 @@ export const specialties = [
   "Psikolog Anak & Remaja",
   "Psikolog Dewasa",
   "Konselor Pernikahan & Keluarga",
+  "Psikolog Kesehatan Mental",
 ];
 
 export const categories = [

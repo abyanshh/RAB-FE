@@ -1,6 +1,6 @@
 import Button from "./Button";
 
-const Modal = ({ title, message, isOpen, onClose, onConfirm }) => {
+const Modal = ({ title, message, isOpen, onClose, onConfirm, cancelText, confirmText }) => {
   if (!isOpen) return null;
 
   return (
@@ -10,10 +10,10 @@ const Modal = ({ title, message, isOpen, onClose, onConfirm }) => {
         <p className="mb-6">{message}</p>
         <div className="flex justify-end gap-3">
           <Button variant="gray" onClick={onClose}>
-            Batal
+            {cancelText}
           </Button>
           <Button variant="red" onClick={onConfirm}>
-            Hapus
+            {confirmText}
           </Button>
         </div>
       </div>

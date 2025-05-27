@@ -1,64 +1,75 @@
-import { useState } from "react"
-import { doctors, specialties, categories } from "./doctors"
+import { useEffect, useState } from "react"
+import { specialties, categories } from "./doctors"
 import DoctorModal from "./DoctorModal"
 import SearchFilter from "../../components/SearchFilter"
 import SortDropdown from "../../components/SortDropdown"
-import DoctorConsult  from "./DoctorConsult"
+import DoctorConsult  from "./DoctorConsult2"
 import Button from "../../components/Button"
 import CategoryFilter from "../../components/CategoryFilter"
+import axios from "axios"
+import { refreshToken } from "../../services/auth"
+import { jwtDecode } from "jwt-decode"
 
 export default function ConsultPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedSpecialty, setSelectedSpecialty] = useState("Semua Spesialis")
   const [selectedDoctor, setSelectedDoctor] = useState(null)
-  const [selectedDay, setSelectedDay] = useState("")
-  const [selectedTime, setSelectedTime] = useState("")
-  const [bookingSuccess, setBookingSuccess] = useState(false)
   const [sortBy, setSortBy] = useState("rating")
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [user, setUser] = useState(false);
+  const [doctors, setDoctors] = useState([]);
+  const [token, setToken] = useState("");
+  const [role, setRole] = useState("");
+  const [id, setId] = useState("");
+  const getDoctor = async () => {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/doctors`)
+    const data = response.data
+    setDoctors(data)
+  } catch (error) {
+    console.error("Gagal mengambil data dokter:", error)
+    setDoctors([])
+  }
+}
+
+  const init = async () => {
+    await getDoctor();
+    const accessToken = await refreshToken();
+    const decoded = jwtDecode(accessToken);
+    setRole(decoded.role);
+    setId(decoded.id);
+    if (accessToken) setToken(accessToken);
+  };
+
+  useEffect(() => {
+    init()
+  }, [])
 
   // Filter doctors based on search term and specialty
   const filteredDoctors = doctors.filter((doctor) => {
-    const matchesSearch = doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesSpecialty = selectedSpecialty === "Semua Spesialis" || doctor.specialty === selectedSpecialty
+    const matchesSearch = doctor.full_name.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesSpecialty = selectedSpecialty === "Semua Spesialis" || doctor.specialization === selectedSpecialty
     return matchesSearch && matchesSpecialty
   })
 
   // Sort doctors based on selected criteria
-  const sortedDoctors = [...filteredDoctors].sort((a, b) => {
-    if (sortBy === "rating") {
-      return b.rating - a.rating
-    } else if (sortBy === "experience") {
-      return Number.parseInt(b.experience) - Number.parseInt(a.experience)
-    } else if (sortBy === "price") {
-      return Number.parseInt(a.price.replace(/\D/g, "")) - Number.parseInt(b.price.replace(/\D/g, ""))
-    }
-    return 0
-  })
-
-  const handleBookAppointment = () => {
-    console.log("Booking appointment with:", selectedDoctor)
-    console.log("Day:", selectedDay)
-    console.log("Time:", selectedTime)
-    setBookingSuccess(true)
-    setTimeout(() => {
-      setIsModalOpen(false)
-      setBookingSuccess(false)
-    }, 3000)
-  }
-
+  //const sortedDoctors = [...filteredDoctors].sort((a, b) => {
+  //  if (sortBy === "rating") {
+  //    return b.rating - a.rating
+  //  } else if (sortBy === "experience") {
+  //    return Number.parseInt(b.experience) - Number.parseInt(a.experience)
+  //  } else if (sortBy === "price") {
+  //    return Number.parseInt(a.price.replace(/\D/g, "")) - Number.parseInt(b.price.replace(/\D/g, ""))
+  //  }
+  //  return 0
+  //})
+  
   const openBookingDialog = (doctor) => {
     setSelectedDoctor(doctor)
-    setSelectedDay(doctor.availability[0].day)
-    setSelectedTime("")
     setIsModalOpen(true)
-    setBookingSuccess(false)
   }
 
   const closeModal = () => {
     setIsModalOpen(false)
-    setBookingSuccess(false)
   }
 
   return (
@@ -68,36 +79,35 @@ export default function ConsultPage() {
             <h1 className="text-3xl font-bold mb-2">Konsultasi Dokter</h1>
             <p className="text-md font-semibold">Konsultasi Dengan Dokter Terbaik Kami Disini</p>
         </div>
-        <Button as = "link" to={user ? "/schedulelist" : "/login"} variant="blue" className="rounded-md">
-            My Schedule
-        </Button>
+         {role === "user" && (
+            <Button as = "link" to="/profile/schedule" variant="blue" className="rounded-md">
+               My Schedule
+            </Button>
+         )}
       </div>
 
       {/* Search and Filter Section */}
       <div className="bg-white rounded-lg shadow-md p-4 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <SearchFilter 
+            placeholder="Cari dokter..."
             value={searchTerm} 
-            onChange={(e) => setSearchTerm(e.target.value)} 
+            onChange={setSearchTerm} 
           />
           <CategoryFilter
             value={selectedSpecialty}
-            onChange={(e) => setSelectedSpecialty(e.target.value)}
+            onChange={setSelectedSpecialty}
             options={specialties}
-          />
-          <SortDropdown 
-            sortBy={sortBy} 
-            setSortBy={setSortBy} 
-            categories={categories}
           />
         </div>
       </div>
 
       {/* Doctor Listing */}
-      {sortedDoctors.length > 0 ? (
+      {filteredDoctors.length > 0 ? (
         <DoctorConsult 
-          doctors={sortedDoctors} 
+          doctors={filteredDoctors} 
           openBookingDialog={openBookingDialog} 
+          token={token}
         />
       ) : (
         <div className="text-center py-12">
@@ -111,13 +121,11 @@ export default function ConsultPage() {
         isModalOpen={isModalOpen}
         closeModal={closeModal}
         selectedDoctor={selectedDoctor}
-        selectedDay={selectedDay}
-        setSelectedDay={setSelectedDay}
-        selectedTime={selectedTime}
-        setSelectedTime={setSelectedTime}
-        bookingSuccess={bookingSuccess}
-        handleBookAppointment={handleBookAppointment}
+        token={token}
+        Id={id}
       />
+
     </div>
   )
 }
+

@@ -8,7 +8,7 @@ export default function CategoryFilter({
       <select
         className="w-full px-4 py-2 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
         value={value}
-        onChange={onChange}
+        onChange={(e) => onChange(e.target.value)}
       >
         {options.map((option) => (
           <option key={option} value={option}>

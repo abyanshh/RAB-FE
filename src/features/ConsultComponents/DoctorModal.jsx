@@ -1,16 +1,36 @@
 import { X } from "lucide-react";
+import { useState } from "react";
+import { createConsult } from "../../services/consult";
 
 export default function DoctorModal({
   isModalOpen,
   closeModal,
   selectedDoctor,
-  selectedDay,
-  setSelectedDay,
-  selectedTime,
-  setSelectedTime,
-  bookingSuccess,
-  handleBookAppointment,
+  token,
+  Id
 }) {
+
+  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+  const [notes, setNotes] = useState("");
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+  
+  const handleBookAppointment = async () => {
+    if (!selectedDoctor || !selectedDay || !selectedTime) return;
+
+    try {
+      await createConsult(selectedDoctor.doctor_id, selectedDay, selectedTime, notes, token);
+      setBookingSuccess(true);
+      setTimeout(() => {
+        closeModal();
+        setBookingSuccess(false);
+      }, 3000);
+    } catch (err) {
+      console.error("Gagal:", err);
+      alert("Gagal membuat janji.");
+    }
+  };
+
   if (!isModalOpen) return null;
 
   return (
@@ -68,19 +88,17 @@ export default function DoctorModal({
                     </h3>
                     <p className="text-gray-600">
                       Anda telah berhasil membuat janji dengan{" "}
-                      {selectedDoctor?.name} pada {selectedDay}, pukul{" "}
-                      {selectedTime}.
+                      {selectedDoctor?.full_name} pada hari {selectedDay}.
                     </p>
                   </div>
                 ) : (
                   <>
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
-                      Buat Janji dengan {selectedDoctor?.name}
+                      Buat Janji dengan {selectedDoctor?.full_name}
                     </h3>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Pilih hari dan waktu yang tersedia untuk konsultasi
-                        Anda.
+                        Pilih hari yang tersedia untuk konsultasi Anda.
                       </p>
                     </div>
                     <div className="mt-4 space-y-4">
@@ -97,47 +115,49 @@ export default function DoctorModal({
                           value={selectedDay}
                           onChange={(e) => setSelectedDay(e.target.value)}
                         >
-                          <option value="" disabled>
+                          <option value="" disabled selected>
                             Pilih hari
                           </option>
-                          {selectedDoctor?.availability.map((avail) => (
-                            <option key={avail.day} value={avail.day}>
-                              {avail.day}
+                          {selectedDoctor?.available_days.map((avail) => (
+                            <option  value={avail}>
+                              {avail}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="day"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Pilih Waktu
+                        </label>
+                        <select
+                          id="day"
+                          className="mt-1 block w-full px-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm rounded-md border"
+                          value={selectedTime}
+                          onChange={(e) => setSelectedTime(e.target.value)}
+                        >
+                          <option value="" disabled selected>
+                            Pilih Waktu
+                          </option>
+                          {selectedDoctor?.available_times.map((avail) => (
+                            <option  value={avail}>
+                              {avail}
                             </option>
                           ))}
                         </select>
                       </div>
 
-                      {selectedDay && (
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Pilih Waktu
-                          </label>
-                          <div className="grid grid-cols-3 gap-2">
-                            {selectedDoctor?.availability
-                              .find((avail) => avail.day === selectedDay)
-                              ?.slots.map((time) => (
-                                <div key={time} className="flex items-center">
-                                  <input
-                                    type="radio"
-                                    id={`time-${time}`}
-                                    name="time"
-                                    value={time}
-                                    checked={selectedTime === time}
-                                    onChange={() => setSelectedTime(time)}
-                                    className="focus:ring-cyan-500 h-4 w-4 text-cyan-600 border-gray-300"
-                                  />
-                                  <label
-                                    htmlFor={`time-${time}`}
-                                    className="ml-2 block text-sm text-gray-700"
-                                  >
-                                    {time}
-                                  </label>
-                                </div>
-                              ))}
-                          </div>
-                        </div>
-                      )}
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700">Catatan:</label>
+                        <textarea
+                          value={notes}
+                          onChange={(e) => setNotes(e.target.value)}
+                          placeholder="Isikan nama kamu dan apa yang ingin kamu konsultasikan"
+                          className="mt-1 block w-full px-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm rounded-md border"
+                        />
+                      </div> 
                     </div>
                   </>
                 )}
@@ -150,12 +170,10 @@ export default function DoctorModal({
               <button
                 type="button"
                 className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-cyan-600 text-base font-medium text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 sm:ml-3 sm:w-auto sm:text-sm ${
-                  !selectedDay || !selectedTime
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
+                  !selectedDay ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 onClick={handleBookAppointment}
-                disabled={!selectedDay || !selectedTime}
+                disabled={!selectedDay}
               >
                 Konfirmasi Janji
               </button>
@@ -173,3 +191,4 @@ export default function DoctorModal({
     </div>
   );
 }
+

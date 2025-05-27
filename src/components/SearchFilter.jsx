@@ -1,6 +1,6 @@
 import { Search } from "lucide-react"
 
-export default function SearchFilter({ value, onChange }) {
+export default function SearchFilter({ value, onChange, placeholder }) {
   return (
     <div className="relative">
     <Search
@@ -9,10 +9,10 @@ export default function SearchFilter({ value, onChange }) {
     />
     <input
       type="text"
-      placeholder="Cari dokter..."
+      placeholder={placeholder}
       className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
       value={value}
-      onChange={onChange}
+      onChange={(e) => onChange(e.target.value)}
     />
   </div>
   )

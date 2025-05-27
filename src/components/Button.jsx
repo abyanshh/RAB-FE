@@ -54,6 +54,28 @@ const Button = ({
       border 
       bg-white 
       text-cyan-600 
+      border-cyan-500
+      hover:bg-cyan-100 
+      hover:text-cyan-800
+      py-2 px-4
+    `,
+    green: `
+      border 
+      bg-white 
+      text-green-600 
+      border-green-500 
+      hover:bg-green-100 
+      hover:text-green-800
+      py-2 px-4
+    `,
+    yellow: `
+      border 
+      bg-white 
+      text-yellow-600 
+      border-yellow-500 
+      hover:bg-yellow-100 
+      hover:text-yellow-800
+      py-2 px-4
       border-cyan-500 
       hover:bg-cyan-100 
       hover:text-cyan-800

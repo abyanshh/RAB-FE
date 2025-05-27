@@ -1,20 +1,22 @@
-import ProfileLayout from "../features/ProfileComponents/ProfileLayout"
-import Navbar from "../Layout/Navbar"
-import Sidebar from "../Layout/Sidebar"
+import ProfileLayout from "../features/ProfileComponents/ProfileLayout";
+import Navbar from "../Layout/Navbar";
+import Sidebar from "../Layout/Sidebar";
+import { MessageSquareQuote, NotebookTabs, User } from "lucide-react";
 
 const Profile = () => {
   const menuItems = [
-    { name: "Profil Saya", path: "/profile" },
-    { name: "Jadwal Saya", path: "/profile/schedule" },
-    { name: "Thread Saya", path: "/profile/threads" },
+    { name: "Profil Saya", path: "/profile", icon: <User /> },
+    { name: "Jadwal Saya", path: "/profile/schedule", icon: <NotebookTabs /> },
+    { name: "Thread Saya", path: "/profile/threads", icon: <MessageSquareQuote /> },
   ];
+
   return (
     <>
       <Navbar />
       <Sidebar title="Profil" menuItems={menuItems} />
-      <ProfileLayout/>
+      <ProfileLayout />
     </>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

@@ -14,7 +14,13 @@ import Profile from './pages/Profile.jsx'
 import ProfilSaya from './features/ProfileComponents/ProfilSaya.jsx'
 import JadwalSaya from './features/ProfileComponents/JadwalSaya.jsx'
 import ThreadSaya from './features/ProfileComponents/ThreadSaya.jsx'
-
+import TestingPage from './pages/testingpage.jsx'
+import Admin from './pages/Admin.jsx'
+import UserList from './features/AdminComponents/UserList.jsx'
+import ScheduleList from './features/AdminComponents/ScheduleList.jsx'
+import UpdateProfil from './features/ProfileComponents/UpdateProfil.jsx'
+import ThreadList from './features/ForumComponents/ThreadList.jsx'
+import ThreadDetail from './features/ForumComponents/ThreadDetail.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -40,25 +46,42 @@ const router = createBrowserRouter([
   {
     path: "/forum",
     element: <Forum />,
+    children: [
+      { index: true, element: <ThreadList /> },
+      { path: ":id", element: <ThreadDetail /> },
+    ]
   },
   {
     path: "/chatbot",
     element: <ChatBot />,
   },
   {
+    path: "/admin",
+    element: <Admin />,
+    children: [
+      { index: true, element: <UserList /> },
+      { path: "schedule", element: <ScheduleList /> },
+    ]
+  },
+  {
     path: "/profile",
     element: <Profile />,
     children: [
       { index: true, element: <ProfilSaya /> },
+      { path: "update", element: <UpdateProfil /> },
       { path: "schedule", element: <JadwalSaya /> },
       { path: "threads", element: <ThreadSaya /> },
     ],
   },
+  {
+    path: "/test",
+    element: <TestingPage />,
+  }
 ])
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
   </StrictMode>,
 )

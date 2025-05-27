@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import ProfilSaya from "./ProfilSaya";
 import JadwalSaya from "./JadwalSaya";
 import ThreadSaya from "./ThreadSaya";
+import UpdateProfil from "./UpdateProfil";
 
 const ProfileLayout = () => {
   const location = useLocation();
@@ -10,6 +11,8 @@ const ProfileLayout = () => {
     switch (location.pathname) {
       case "/profile":
         return <ProfilSaya />;
+      case "/profile/update":
+        return <UpdateProfil />;
       case "/profile/schedule":
         return <JadwalSaya />;
       case "/profile/threads":
@@ -20,9 +23,9 @@ const ProfileLayout = () => {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen ">
       <main className="flex-1 p-6 bg-gray-50">
-        {renderContent()}
+          {renderContent()}
       </main>
     </div>
   );

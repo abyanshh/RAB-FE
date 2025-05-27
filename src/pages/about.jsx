@@ -9,11 +9,11 @@ const Home = () => {
         
         {/* Text */}
         <div className="flex-1 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-cyan-800">
             About Us
           </h1>
           <br />
-          <p className="text-gray-600 mb-6 text-lg">
+          <p className="text-gray-600 mb-6 text-sm">
           Ruang Aman Bersama merupakan sebuah platform digital yang 
           didedikasikan untuk mendukung kesehatan mental masyarakat Indonesia. 
           Kami hadir sebagai solusi modern di tengah tingginya kebutuhan masyarakat akan akses informasi, 

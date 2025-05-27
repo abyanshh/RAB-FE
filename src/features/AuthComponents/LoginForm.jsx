@@ -2,44 +2,34 @@ import { useState } from 'react'
 import Button from '../../components/Button'
 import { FcGoogle } from 'react-icons/fc'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
+import { login } from '../../services/auth'
 const LoginForm = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const Navigate = useNavigate()
+    const navigate = useNavigate()
     const handleSubmit = async (e) => {
-    e.preventDefault()
-    try {
-      const res = await axios.post('http://localhost:5000/auth/login', {
-        email,
-        password,
-      });
-
-      if (res.status === 200) {
-        toast.success(res.data.message, {
-          toastId: 'registration-success',
-          theme: "colored",
-          position: "bottom-left",
+      e.preventDefault();
+      try {
+        const data = await login(email, password);
+        
+        toast.success(data.message, {
+          toastId: 'login-success',
+          theme: 'colored',
           autoClose: 3000,
         });
-        setTimeout(() => Navigate('/'), 2000);
+
+        setTimeout(() => navigate('/'), 2000);
+      } catch (error) {
+        toast.error(error.message, {
+          toastId: 'login-error',
+          theme: 'colored',
+          autoClose: 3000,
+        });
       }
-    } catch (error) {
-      console.error(error);
-
-      const message = error.response?.data?.error || 'Terjadi kesalahan saat login';
-
-      toast.error(message, {
-        toastId: 'registration-error',
-        theme: "colored",
-        position: "bottom-left",
-        autoClose: 3000,
-      });
-    }
-  }
+    };
 
   return (
     <div className="flex items-center justify-center px-4">

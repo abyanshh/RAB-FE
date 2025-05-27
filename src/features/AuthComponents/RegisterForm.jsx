@@ -1,46 +1,42 @@
 import { useState } from 'react'
 import Button from '../../components/Button'
 import { FcGoogle } from 'react-icons/fc'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { register } from '../../services/auth'
 
 const RegisterForm = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [fullname, setFullname] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const Navigate = useNavigate()
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    try {
-      const res = await axios.post('http://localhost:5000/auth/register', {
-        username: name,
-        email,
-        password,
-        confirmPassword,
-      });
+    e.preventDefault();
+    if (password === confirmPassword) {
+      try {
+        const data = await register(name, fullname, email, password);
 
-      if (res.status === 201) {
-        toast.success(res.data.message, {
+        toast.success(data.message, {
           toastId: 'registration-success',
-          theme: "colored",
-          position: "bottom-left",
+          theme: 'colored',
           autoClose: 3000,
         });
-        setTimeout(() => Navigate('/login'), 2000);
+
+        setTimeout(() => navigate('/login'), 2000);
+      } catch (error) {
+        toast.error(error.message, {
+          toastId: 'registration-error',
+          theme: 'colored',
+          autoClose: 3000,
+        });
       }
-    } catch (error) {
-      console.error(error);
-
-      const message = error.response?.data?.error || 'Terjadi kesalahan saat registrasi';
-
-      toast.error(message, {
-        toastId: 'registration-error',
-        theme: "colored",
-        position: "bottom-left",
+    } else {
+      toast.error('Password tidak sesuai', {
+        toastId: 'password-mismatch',
+        theme: 'colored',
         autoClose: 3000,
       });
     }
@@ -57,6 +53,16 @@ const RegisterForm = () => {
               type="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
+              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-1">Full Name</label>
+            <input
+              type="name"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
               required
               className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
