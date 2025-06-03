@@ -1,12 +1,11 @@
 import { FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
 import { BotMessageSquare } from "lucide-react";
 
 const FooterLayout = ({ children }) => {
   return (
     <>
-      <footer className="shadow-2xl text-cyan-800">
+      <footer className="shadow-2xl text-cyan-800 bg-white">
         <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-4 gap-10 text-sm">
           {children}
         </div>
@@ -15,7 +14,7 @@ const FooterLayout = ({ children }) => {
             window.location.pathname === "/chatbot" ? "hidden" : "block"
           }`}
         >
-          <div className="relative p-[2px] rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 hover:drop-shadow-xl/20">
+          <div className="relative p-[2px] rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 transition-transform duration-500 hover:drop-shadow-xl/20 hover:scale-105">
             <Link to="/chatbot">
               <div className="bg-white rounded-full p-3 w-full h-full text-cyan-600 hover:text-cyan-800">
                 <BotMessageSquare className="" />
@@ -50,13 +49,10 @@ const Footer = () => {
         <h3 className="text-lg font-semibold mb-2">Our Service</h3>
         <ul className="flex flex-col gap-6">
           <li>
-            <Link to="/consult">Consultation</Link>
+            <Link to="/consult">Konsultasi</Link>
           </li>
           <li>
-            <Link to="/scheduling">Scheduling</Link>
-          </li>
-          <li>
-            <Link to="/forum">Forum & Community</Link>
+            <Link to="/forum">Forum & Komunitas</Link>
           </li>
           <li>
             <Link to="/chatbot">ChatBot</Link>

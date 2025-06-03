@@ -5,12 +5,14 @@ import Logo from '/image/RAB.png';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { logout as logoutService, refreshToken } from '../services/auth';
 import { jwtDecode } from 'jwt-decode';
+import { getUserById } from '../services/user';
 
 const Navbar = () => {
   const [token, setToken] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [role, setRole] = useState("");
+  const [profile, setProfile] = useState("");
 
   useEffect(() => {
     fetchToken();
@@ -21,11 +23,11 @@ const Navbar = () => {
 
   const fetchToken = async () => {
     const accessToken = await refreshToken();
-    if (accessToken) {
-      setToken(accessToken);
-      const decoded = jwtDecode(accessToken);
-      setRole(decoded.role);
-    }
+    setToken(accessToken);
+    const decoded = jwtDecode(accessToken);
+    setRole(decoded.role);
+    const user = await getUserById(decoded.id, accessToken);
+    setProfile(user.avatar_url);
   };
 
   const logout = async () => {
@@ -56,15 +58,15 @@ const Navbar = () => {
 
           {token ? (
             <div className="relative">
-              <Button onClick={toggleProfileMenu} variant="blue">Profile</Button>
+              <img src={profile || "image/image.png"} alt="Profile" className="border-2 w-10 h-10 rounded-full cursor-pointer hover:scale-105" onClick={toggleProfileMenu} />
               {isProfileOpen && (
-                <div className="absolute right-0 mt-2 bg-white px-6 py-4 rounded-md border border-cyan-500 shadow-md flex flex-col gap-4 text-cyan-700 font-medium z-50">
+                <div className="absolute right-0 mt-2 bg-white px-6 py-4 rounded-md border border-cyan-500 shadow-md flex flex-col gap-4 text-cyan-700 font-medium z-50 divide-y">
                   {role === "user" && (
                     <>
                       <Link to="/profile" className="hover:text-slate-700" onClick={() => setIsProfileOpen(false)}>Profile</Link>
-                      <Link to="/profile/schedule" className="hover:text-slate-700" onClick={() => setIsProfileOpen(false)}>Schedule</Link>
+                      <Link to="/profile/schedule" className="hover:text-slate-700" onClick={() => setIsProfileOpen(false)}>Jadwal</Link>
                       <Link to="/profile/threads" className="hover:text-slate-700" onClick={() => setIsProfileOpen(false)}>Threads</Link>
-                      <Link to="/" className="hover:text-slate-700" onClick={() => {
+                      <Link to="/" className="text-red-600 hover:text-red-700" onClick={() => {
                         logout();
                         setIsProfileOpen(false);
                       }}>Logout</Link>
@@ -74,7 +76,7 @@ const Navbar = () => {
                     <>
                       <Link to="/admin" className="hover:text-slate-700" onClick={() => setIsProfileOpen(false)}>Admin</Link>
                       <Link to="/profile" className="hover:text-slate-700" onClick={() => setIsProfileOpen(false)}>Profile</Link>
-                      <Link to="/" className="hover:text-slate-700" onClick={() => {
+                      <Link to="/" className="text-red-600 hover:text-red-700" onClick={() => {
                         logout();
                         setIsProfileOpen(false);
                       }}>Logout</Link>

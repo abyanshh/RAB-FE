@@ -8,12 +8,15 @@ import CreateThreadModal from "./CreateThreadModal"
 import Navigation from "./Navigation"
 import Search from "../../components/SearchFilter"
 import Button from "../../components/Button"
+import { Link } from "react-router-dom"
+import StatusModal from "../../components/StatusModal"
 
 export default function ThreadList ({ token, role })  {
-  const [isCreateThreadModalOpen, setIsCreateThreadModalOpen] = useState(false)
+  const [ isCreateThreadModalOpen, setIsCreateThreadModalOpen ] = useState(false)
   const [ threads, setThreads ] = useState([])
   const [ currentThread, setCurrentThread ] = useState(null)
   const [ searchTerm, setSearchTerm ] = useState("")
+  const [ statusModalOpen, setStatusModalOpen ] = useState(false);
   const navigate = useNavigate()
 
   const getThreads = async () => {
@@ -23,6 +26,11 @@ export default function ThreadList ({ token, role })  {
   useEffect(() => {
     getThreads()
   }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => setStatusModalOpen(false), 2000);
+    return () => clearTimeout(timer);
+  }, [statusModalOpen])
 
   const handleDeleteThreads = async (thread, token) => {
     try {
@@ -43,11 +51,11 @@ export default function ThreadList ({ token, role })  {
     navigate("/forum")
   }
 
-  const handleCreateThread = async (threads) => {
+  const handleCreateThread = async (thread) => {
     try {
-      await createThread(threads, token);
+      await createThread(thread, token);
       setIsCreateThreadModalOpen(false);
-      alert("Thread berhasil dibuat!");
+      setStatusModalOpen(true);
       getThreads();
     } catch (error) {
       console.error("Gagal membuat thread:", error);
@@ -76,13 +84,24 @@ export default function ThreadList ({ token, role })  {
               <h2 className="font-bold text-xl">Forum Diskusi</h2>
               <p className="text-gray-600 text-sm">Tempat berbagi dan berdiskusi tentang berbagai topik</p>
             </div>
-            <button
-              className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-md transition-colors flex items-center"
-              onClick={() => setIsCreateThreadModalOpen(true)}
-            >
-              <PlusCircle className="h-5 w-5 mr-2" />
-              Thread Baru
-            </button>
+            {!token ? (
+              <Link to="/login">
+                <button
+                  className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-md transition-colors flex items-center"
+                >
+                  <PlusCircle className="h-5 w-5 mr-2" />
+                  Thread Baru
+                </button>
+              </Link>
+            ) : (
+              <button
+                className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-md transition-colors flex items-center"
+                onClick={() => setIsCreateThreadModalOpen(true)}
+              >
+                <PlusCircle className="h-5 w-5 mr-2" />
+                Thread Baru
+              </button>
+            )}
           </div>
         </div>
 
@@ -129,13 +148,24 @@ export default function ThreadList ({ token, role })  {
           <div className="text-center py-12">
             <h3 className="text-lg font-medium">Belum ada thread</h3>
             <p className="text-gray-600 mt-2">Jadilah yang pertama membuat thread di forum ini</p>
-            <button
-              className="mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-md transition-colors inline-flex items-center"
-              onClick={() => setIsCreateThreadModalOpen(true)}
-            >
-              <PlusCircle className="h-5 w-5 mr-2" />
-              Buat Thread Baru
-            </button>
+            {!token ? (
+              <Link to="/login">
+                <button
+                  className="mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-md transition-colors inline-flex items-center"
+                >
+                  <PlusCircle className="h-5 w-5 mr-2" />
+                  Thread Baru
+                </button>
+              </Link>
+            ) : (
+              <button
+                className="mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-md transition-colors inline-flex items-center"
+                onClick={() => setIsCreateThreadModalOpen(true)}
+              >
+                <PlusCircle className="h-5 w-5 mr-2" />
+                Thread Baru
+              </button>
+            )}
           </div>
         )}
 
@@ -144,6 +174,13 @@ export default function ThreadList ({ token, role })  {
           isOpen={isCreateThreadModalOpen}
           onClose={() => setIsCreateThreadModalOpen(false)}
           onSubmit={handleCreateThread}
+        />
+
+        <StatusModal
+          type="success"
+          message="Thread berhasil dibuat"
+          isOpen={statusModalOpen}
+          onClose={(() => setStatusModalOpen(false))}
         />
       </div>
     </>

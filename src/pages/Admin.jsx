@@ -1,6 +1,6 @@
 import Navbar from "../Layout/Navbar";
 import Sidebar from "../Layout/Sidebar";
-import { MessageSquareQuote, NotebookTabs, User } from "lucide-react";
+import { NotebookTabs, User } from "lucide-react";
 import AdminLayout from "../features/AdminComponents/AdminLayout";
 
 const Admin = () => {

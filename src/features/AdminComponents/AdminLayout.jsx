@@ -1,29 +1,16 @@
 import { Outlet, useLocation } from "react-router-dom";
 import UserList from "./UserList";
 import ScheduleList from "./ScheduleList";
-import { useState, useEffect } from "react";
-import { refreshToken } from "../../services/auth";
 
 const AdminLayout = () => {
   const location = useLocation();
-  const [token, setToken] = useState("");
-
-  const init = async () => {
-    const accessToken = await refreshToken();
-    if (accessToken) setToken(accessToken);
-  };
-  
-
-  useEffect(() => {
-    init();
-  }, []);
 
   const renderContent = () => {
     switch (location.pathname) {
       case "/admin":
         return <UserList />;
       case "/admin/schedule":
-        return <ScheduleList token = {token} />;
+        return <ScheduleList />;
       default:
         return <Outlet />;
     }

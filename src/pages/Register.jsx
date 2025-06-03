@@ -3,10 +3,11 @@ import MainLayout from '../Layout/MainLayout'
 
 const Register = () => {
   return (
-    <MainLayout>
-      <RegisterForm/>
-    </MainLayout>
-
+    <div className="bg-cyan-50 min-h-screen">
+      <MainLayout>
+        <RegisterForm/>
+      </MainLayout>
+    </div>
   )
 }
 

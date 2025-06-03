@@ -1,59 +1,139 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { jwtDecode } from "jwt-decode";
 import { refreshToken } from "../../services/auth";
-import axios from "axios";
+import { getUserById } from "../../services/user";
 import Button from "../../components/Button";
+import { CirclePlus } from "lucide-react";
+
 const ProfilSaya = () => {
   const [user, setUser] = useState({});
+  const [preview, setPreview] = useState("");
+  const fileInputRef = useRef();
 
   useEffect(() => {
     init();
   }, []);
+
   const init = async () => {
-    const accessToken = await refreshToken();
-    if (accessToken) {
-      const decoded = jwtDecode(accessToken);
-      await getUser(decoded.id);
-    }
+    const token = await refreshToken();
+    const decoded = jwtDecode(token);
+    await getUser(decoded.id, token);
   };
-  const getUser = async (Id) => {
+
+  const getUser = async (id, token) => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/users/${Id}`);
-      setUser(response.data);
+      const data = await getUserById(id, token);
+      setUser(data);
+      setPreview(data?.avatar_url);
     } catch (error) {
       console.error("Gagal mengambil data user:", error);
     }
   };
 
+  const handleClickPhoto = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const imageUrl = URL.createObjectURL(file);
+    setPreview(imageUrl);
+
+    const token = await refreshToken();
+    const decoded = jwtDecode(token);
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/users/update/${decoded.id}/avatar`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      const result = await res.json();
+      if (!res.ok) {
+        throw new Error(result.message);
+      }
+
+      setPreview(result.avatar_url);
+    } catch (error) {
+      console.error("Gagal upload foto:", error.message);
+    }
+  };
+
   return (
     <div className="p-6 max-w-3xl mx-auto mt-20">
-      <h2 className="text-2xl font-semibold text-cyan-800 mb-4">Profil Saya</h2>
-      <div className="bg-white border border-cyan-700 shadow-lg rounded-xl p-6 text-base space-y-4 divide-y divide-gray-200">
-        <div className="space-y-2 text-gray-700">
-          <p>
-            <span className="font-semibold">👤 Username:</span> {user?.username}
-          </p>
-          <p>
-            <span className="font-semibold">🪪 Nama Lengkap:</span>{" "}
-            {user?.full_name}
-          </p>
-          <p>
-            <span className="font-semibold">📧 Email:</span> {user?.email}
-          </p>
-          <p>
-            <span className="font-semibold">📱 No. HP:</span>{" "}
-            {user?.phone_number}
-          </p>
-          <p className="col-span-2">
-            <span className="font-semibold">🏠 Alamat:</span> {user?.alamat}
-          </p>
-          <p className="col-span-2">
-            <span className="font-semibold">🎂 Tanggal Lahir:</span>{" "}
-            {user?.tanggal_lahir?.slice(0, 10) || "-"}
-          </p>
+      <h2 className="text-3xl font-bold text-cyan-800 mb-6 text-center">
+        Profil Saya
+      </h2>
+
+      <div className="bg-white border border-cyan-700 shadow-lg rounded-2xl p-6">
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+          {/* Foto Profil */}
+          <div className="flex-shrink-0 relative group w-32 h-32">
+            {/* Gambar Profil */}
+            <img
+              src={preview || "/default-profile.png"}
+              alt="Foto Profil"
+              className="w-full h-full rounded-full object-cover border-4 border-cyan-500 shadow-md cursor-pointer transition-transform group-hover:scale-105"
+              onClick={handleClickPhoto}
+            />
+
+            {/* Input file tersembunyi */}
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              className="hidden"
+              onChange={handleFileChange}
+            />
+
+            {/* Overlay saat hover */}
+            <div
+              onClick={handleClickPhoto}
+              className="absolute inset-0 bg-gray-500/75 rounded-full flex items-center justify-center text-white font-semibold text-sm opacity-0 group-hover:opacity-100 transition duration-300 cursor-pointer"
+            >
+              <CirclePlus className="w-10 h-10" />
+            </div>
+          </div>
+
+          {/* Informasi User */}
+          <div className="flex-1 space-y-3 text-gray-700">
+            <p>
+              <span className="font-semibold">👤 Username:</span>{" "}
+              {user?.username}
+            </p>
+            <p>
+              <span className="font-semibold">📧 Email:</span> {user?.email}
+            </p>
+            <p>
+              <span className="font-semibold">🪪 Nama Lengkap:</span>{" "}
+              {user?.full_name}
+            </p>
+            <p>
+              <span className="font-semibold">📱 No. HP:</span>{" "}
+              {user?.phone_number}
+            </p>
+            <p>
+              <span className="font-semibold">🏠 Alamat:</span> {user?.alamat}
+            </p>
+            <p>
+              <span className="font-semibold">🎂 Tanggal Lahir:</span>{" "}
+              {user?.tanggal_lahir?.slice(0, 10) || "-"}
+            </p>
+          </div>
         </div>
 
-        <div className="pt-4 flex justify-end">
+        {/* Tombol Update */}
+        <div className="pt-6 flex justify-end">
           <Button
             as="link"
             variant="yellow"

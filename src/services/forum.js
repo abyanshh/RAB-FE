@@ -61,6 +61,20 @@ export const deleteThreadById = async (forumId, token) => {
     throw error
   }
 }
+
+export const deleteCommentById = async (forumId, commentId, token) => {
+  try {
+    const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/forums/${forumId}/comments/${commentId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true
+    })
+    return response.data
+  } catch (error) {
+    console.error("Gagal menghapus komentar:", error)
+    throw error
+  }
+}
+
 export const getAllComments = async (forumId) => {
   try {
     const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/forums/${forumId}/comments`)

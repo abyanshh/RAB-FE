@@ -2,9 +2,11 @@ import LoginForm from '../features/AuthComponents/LoginForm'
 import MainLayout from '../Layout/MainLayout'
 const Login = () => {
   return (
-    <MainLayout>
-        <LoginForm />
-    </MainLayout>
+    <div className="bg-cyan-50">
+      <MainLayout>
+          <LoginForm />
+      </MainLayout>
+    </div>
   )
 }
 

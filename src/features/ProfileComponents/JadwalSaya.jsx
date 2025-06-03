@@ -4,17 +4,13 @@ import Modal from "../../components/AcceptModal";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { refreshToken } from "../../services/auth";
+import { getAppointmentById, updateStatus } from "../../services/consult";
 
 const JadwalSaya = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedJadwal, setSelectedJadwal] = useState(null);
   const [jadwalKonsultasi, setJadwalKonsultasi] = useState([]);
   const [token, setToken] = useState("");
-  //const jadwalKonsultasi = [
-  //  { id: 1, tanggal: '2022-01-01', waktu: '10:00 AM', psikolog: 'Dr. John Doe', status: 'Menunggu Konfirmasi' },
-  //  { id: 2, tanggal: '2022-01-02', waktu: '11:00 AM', psikolog: 'Dr. Jane Smith', status: 'Terkonfirmasi' },
-  //  { id: 3, tanggal: '2022-01-03', waktu: '12:00 PM', psikolog: 'Dr. Bob Johnson', status: 'Ditolak' },
-  //];
 
   useEffect(() => {
     init();
@@ -22,23 +18,14 @@ const JadwalSaya = () => {
 
   const init = async () => {
     const accessToken = await refreshToken();
-    if (accessToken) {
-      setToken(accessToken);
-      await getAppointment(accessToken);
-    }
+    setToken(accessToken);
+    await getAppointment(accessToken);
   };
 
   const getAppointment = async (accessToken) => {
     try {
-      const res = await axios.get("http://localhost:5000/appointments/me", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        withCredentials: true,
-      });
-
-      setJadwalKonsultasi(res.data);
+      const data = await getAppointmentById(accessToken);
+      setJadwalKonsultasi(data);
     } catch (err) {
       console.error("Gagal mengambil jadwal:", err);
     }
@@ -51,20 +38,9 @@ const JadwalSaya = () => {
 
   const handleStatus = async () => {
     try {
-      const res = await axios.patch(
-        `${import.meta.env.VITE_BASE_URL}/appointments/${selectedJadwal.appointment_id}/status`,
-        { status: "Dibatalkan" },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true,
-        }
-      );
+      await updateStatus(selectedJadwal.appointment_id, "Dibatalkan", token);
       getAppointment(token);
       setShowModal(false);
-      alert("Jadwal berhasil dibatalkan!");
     } catch (err) {
       console.error("Gagal membatalkan jadwal:", err);
     }
@@ -119,7 +95,7 @@ const JadwalSaya = () => {
                   </div>
 
                   <div className="flex items-center justify-between pt-2">
-                    <p> 
+                    <p>
                       <span className="font-semibold ">📌 Status:</span>{" "}
                       <span
                         className={`font-medium px-2 py-1 rounded-md

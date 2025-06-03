@@ -3,8 +3,11 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import Register from './pages/Register.jsx'
 import Login from './pages/Login.jsx'
+import ForgotPass from './pages/ForgotPass.jsx'
+import ResetPass from './pages/ResetPass.jsx'
 import ErrorPage from './pages/Error.jsx'
 import AboutUs from './pages/about.jsx'
 import Consult from './pages/Consult.jsx'
@@ -14,13 +17,13 @@ import Profile from './pages/Profile.jsx'
 import ProfilSaya from './features/ProfileComponents/ProfilSaya.jsx'
 import JadwalSaya from './features/ProfileComponents/JadwalSaya.jsx'
 import ThreadSaya from './features/ProfileComponents/ThreadSaya.jsx'
-import TestingPage from './pages/testingpage.jsx'
 import Admin from './pages/Admin.jsx'
 import UserList from './features/AdminComponents/UserList.jsx'
 import ScheduleList from './features/AdminComponents/ScheduleList.jsx'
 import UpdateProfil from './features/ProfileComponents/UpdateProfil.jsx'
 import ThreadList from './features/ForumComponents/ThreadList.jsx'
 import ThreadDetail from './features/ForumComponents/ThreadDetail.jsx'
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,6 +37,14 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPass />,
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPass />,
   },
   {
     path: "/about",
@@ -73,15 +84,13 @@ const router = createBrowserRouter([
       { path: "threads", element: <ThreadSaya /> },
     ],
   },
-  {
-    path: "/test",
-    element: <TestingPage />,
-  }
 ])
-
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <RouterProvider router={router} />
-  </StrictMode>,
+    </GoogleOAuthProvider>
+  </StrictMode>
 )
+

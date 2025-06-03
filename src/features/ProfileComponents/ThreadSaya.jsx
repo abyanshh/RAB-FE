@@ -13,34 +13,17 @@ const ThreadSaya = () => {
       }, []);
       const init = async () => {
         const accessToken = await refreshToken();
-        if (accessToken) {
-          const decoded = jwtDecode(accessToken);
-          await getThreads(decoded.id);
-        }
+        const decoded = jwtDecode(accessToken);
+        await getThreads(decoded.id);
       };
       const getThreads = async (Id) => {
         try {
-          const response = await getThreadsbyUserId(Id);
-          setThreads(response);
+          const data = await getThreadsbyUserId(Id);
+          setThreads(data);
         } catch (error) {
           console.error("Gagal mengambil data user:", error);
         }
       };
-
-    const threadss = [
-      {
-        id: 1,
-        judul: "Menghadapi Kecemasan Saat Wawancara Kerja",
-        tanggal: "2025-04-20",
-        isi: "Saya sering merasa cemas berlebihan saat wawancara. Apakah ini normal?",
-      },
-      {
-        id: 2,
-        judul: "Cara Mengelola Stres Saat Skripsi",
-        tanggal: "2025-04-10",
-        isi: "Lagi buntu nulis skripsi dan makin stres. Ada saran?",
-      },
-    ];
   
     return (
       <div className="p-6 max-w-6xl mt-20 mx-auto">

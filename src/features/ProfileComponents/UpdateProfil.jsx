@@ -1,12 +1,11 @@
 import Button from "../../components/Button";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { refreshToken } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
+import { getUserById, updateUserById } from "../../services/user";
 const UpdateProfil = () => {
   const [user, setUser] = useState({});
-  const [Id, setId] = useState("");
   const [token, setToken] = useState("");
   const Navigate = useNavigate();
 
@@ -15,48 +14,39 @@ const UpdateProfil = () => {
   }, []);
   const init = async () => {
     const accessToken = await refreshToken();
-    if (accessToken) {
-      const decoded = jwtDecode(accessToken);
-      setToken(accessToken);
-      setId(decoded.id);
-      await getUser(decoded.id);
-    }
+    const decoded = jwtDecode(accessToken);
+    setToken(accessToken);
+    await getUser(decoded.id, accessToken);
   };
 
-  const getUser = async (Id) => {
+  const getUser = async (Id, token) => {
     try {
-      const response = await axios.get(`http://localhost:5000/users/${Id}`);
-      setUser(response.data);
+      const data = await getUserById(Id, token);
+      setUser(data);
     } catch (error) {
       console.error("Gagal mengambil data user:", error);
     }
   };
-  const UpdateUser = async (Id) => {
+  const handleUpdate = async () => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/users/update/${Id}`,
-        {
-          phone_number: user?.phone_number,
-          alamat: user?.alamat,
-          tanggal_lahir: user?.tanggal_lahir,
-        },
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setUser(response.data);
+      const data = {
+        username: user?.username,
+        full_name: user?.full_name,
+        phone_number: user?.phone_number,
+        alamat: user?.alamat,
+        tanggal_lahir: user?.tanggal_lahir,
+      };
+      const updatedUser = await updateUserById(user.user_id, data, token);
+      setUser(updatedUser);
       Navigate("/profile");
     } catch (error) {
-      console.error("Gagal mengambil data user:", error);
+      console.error("Gagal mengupdate data user:", error);
     }
   };
 
   const handleChange = (e) => {
     e.preventDefault();
-    UpdateUser(Id);
+    handleUpdate();
   };
 
   return (
@@ -77,9 +67,8 @@ const UpdateProfil = () => {
             id="username"
             value={user?.username || ""}
             onChange={(e) => setUser({ ...user, username: e.target.value })}
-            className="w-full p-2 border border-cyan-700 rounded text-gray-500"
+            className="w-full p-2 border border-cyan-700 rounded"
             placeholder="Nama"
-            disabled
           />
         </div>
         <div>
@@ -91,25 +80,11 @@ const UpdateProfil = () => {
             id="fullname"
             value={user?.full_name || ""}
             onChange={(e) => setUser({ ...user, full_name: e.target.value })}
-            className="w-full p-2 border border-cyan-700 rounded text-gray-500"
+            className="w-full p-2 border border-cyan-700 rounded"
             placeholder="Nama"
-            disabled
           />
         </div>
-        <div>
-          <label className="block font-semibold mb-2" htmlFor="email">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={user?.email || ""}
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
-            className="w-full p-2 border border-cyan-700 rounded text-gray-500"
-            placeholder="Email"
-            disabled
-          />
-        </div>
+        
         <div>
           <label className="block font-semibold mb-2" htmlFor="phone_number">
             No. HP
@@ -144,7 +119,9 @@ const UpdateProfil = () => {
             type="date"
             id="tanggal_lahir"
             value={user?.tanggal_lahir?.slice(0, 10) || ""}
-            onChange={(e) => setUser({ ...user, tanggal_lahir: e.target.value })}
+            onChange={(e) =>
+              setUser({ ...user, tanggal_lahir: e.target.value })
+            }
             className="w-full p-2 border border-cyan-700 rounded"
           />
         </div>
@@ -157,3 +134,4 @@ const UpdateProfil = () => {
 };
 
 export default UpdateProfil;
+

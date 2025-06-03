@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import dotenv from 'dotenv'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
@@ -12,6 +11,12 @@ export default defineConfig({
   define: {
     'process.env.VITE_BASE_URL': JSON.stringify(process.env.VITE_BASE_URL),
     'process.env.VITE_API_KEY': JSON.stringify(process.env.VITE_API_KEY),
+    'process.env.VITE_GOOGLE_CLIENT_ID': JSON.stringify(process.env.VITE_GOOGLE_CLIENT_ID),
+  },
+  server: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+      'Cross-Origin-Embedder-Policy': 'unsafe-none',
+    }
   }
 })
-

@@ -12,7 +12,7 @@ const ForumLayouts = () => {
 
   const fetchToken = async () => {
     const accessToken = await refreshToken();
-    if (accessToken) setToken(accessToken);
+    setToken(accessToken);
     const decoded = jwtDecode(accessToken);
     setRole(decoded.role);
   };
@@ -32,7 +32,12 @@ const ForumLayouts = () => {
   };
   return (
     <div className="max-w-6xl mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-6 text-cyan-800">Forum Diskusi</h1>
+      <div className="text-cyan-800 mb-6">
+          <h1 className="text-3xl font-bold mb-2">Forum Diskusi</h1>
+          <p className="text-md font-semibold max-w-xl">
+            Konsultasi dan berbagi cerita bersama.
+          </p>
+        </div>
       <main>{renderContent()}</main>
     </div>
   );

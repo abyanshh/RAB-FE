@@ -5,14 +5,15 @@ import { useEffect, useState } from 'react'
 import { MdOutlineScreenSearchDesktop as Icon1, MdDiversity1 as Icon3 } from "react-icons/md";
 import { AiOutlineSafety as Icon2 } from "react-icons/ai";
 import { motion } from 'framer-motion'
-import { BookCopy } from 'lucide-react';
+import { BookCopy, BotMessageSquare } from 'lucide-react';
 
 const phrases = [
-  'Your modern solution for decision-making.',
-  'Schedule your consultation easily.',
-  'Connect and share in a safe space.',
-  'Support each other, grow together.'
-]
+  'Solusi modern untuk mendukung kesehatan mental Anda.',
+  'Jadwalkan konsultasi dengan mudah dan nyaman.',
+  'Terhubung dan berbagi cerita di ruang yang aman.',
+  'Saling mendukung, tumbuh bersama dalam komunitas.'
+];
+
 
 
 const disorders = [
@@ -106,11 +107,16 @@ const HeroSection = () => {
             |
           </motion.span>
         </motion.p>
-        <div className="flex justify-center md:justify-start gap-4">
-          <Button to='/login' as='link' variant='orange'>Get Started !</Button>
+        <div className="flex gap-2 justify-center md:justify-start">
+          <div className="flex justify-center md:justify-start gap-4">
+            <Button to='/consult' as='link' variant='orange'>Get Started !</Button>
+          </div>
+          <div className="flex justify-center md:justify-start gap-4">
+            
+            <Button to='/chatbot' as='link' variant='blue' className="flex gap-2"><BotMessageSquare/> Coba Chatbot !</Button>
+          </div>
         </div>
       </div>
-      {/* Image  */}
       <div className="flex-1">
         <img
           src={heroImage2}

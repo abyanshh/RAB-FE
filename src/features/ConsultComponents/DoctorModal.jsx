@@ -19,7 +19,12 @@ export default function DoctorModal({
     if (!selectedDoctor || !selectedDay || !selectedTime) return;
 
     try {
-      await createConsult(selectedDoctor.doctor_id, selectedDay, selectedTime, notes, token);
+      const data = {
+        hari : selectedDay,
+        waktu : selectedTime,
+        notes : notes,
+      }
+      await createConsult(selectedDoctor.doctor_id, data, token);
       setBookingSuccess(true);
       setTimeout(() => {
         closeModal();
@@ -118,10 +123,10 @@ export default function DoctorModal({
                           <option value="" disabled selected>
                             Pilih hari
                           </option>
-                          {selectedDoctor?.available_days.map((avail) => (
+                          {selectedDoctor?.hari.map((avail) => (
                             <option  value={avail}>
                               {avail}
-                            </option>
+                            </option> 
                           ))}
                         </select>
                       </div>
@@ -141,7 +146,7 @@ export default function DoctorModal({
                           <option value="" disabled selected>
                             Pilih Waktu
                           </option>
-                          {selectedDoctor?.available_times.map((avail) => (
+                          {selectedDoctor?.waktu.map((avail) => (
                             <option  value={avail}>
                               {avail}
                             </option>

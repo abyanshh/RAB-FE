@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { BadgeCheck, HeartHandshake, Send } from "lucide-react";
@@ -6,13 +6,14 @@ import { BadgeCheck, HeartHandshake, Send } from "lucide-react";
 const ChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
   const API_KEY = import.meta.env.VITE_API_KEY;
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, isLoading]);
 
   useEffect(() => {
     setMessages([
@@ -29,6 +30,7 @@ const ChatBot = () => {
     const userMessage = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
+    setIsLoading(true);
 
     const chatHistory = messages.map((msg) => ({
       role: msg.role === "user" ? "user" : "model",
@@ -39,8 +41,7 @@ const ChatBot = () => {
       role: "user",
       parts: [
         {
-            text: `PERINGATAN: Kamu asisten AI di platform *Ruang Aman Bersama* yang hanya membahas seputar kesehatan mental. Jangan membahas topik di luar kesehatan mental, termasuk teknologi, politik, finansial, hiburan, atau topik umum lainnya. Jawablah dengan empati, profesional, dan singkat!. Fokuskan jawaban pada dukungan emosional, kesejahteraan mental, dan saran yang relevan. Jika pengguna menanyakan hal di luar itu, tolak dengan sopan dan arahkan kembali ke konteks kesehatan mental. Prompt pengguna: ${input}`,
-
+          text: `PERINGATAN: Kamu asisten AI di platform *Ruang Aman Bersama* yang hanya membahas seputar kesehatan mental. Jangan membahas topik di luar kesehatan mental, termasuk teknologi, politik, finansial, hiburan, atau topik umum lainnya. Jawablah dengan empati, profesional, dan singkat!. Fokuskan jawaban pada dukungan emosional, kesejahteraan mental, dan saran yang relevan. Jika pengguna menanyakan hal di luar itu, tolak dengan sopan dan arahkan kembali ke konteks kesehatan mental. Prompt pengguna: ${input},`
         },
       ],
     });
@@ -69,85 +70,116 @@ const ChatBot = () => {
         ...prev,
         { role: "bot", content: "Ups, ada error saat menjawab 😓" },
       ]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <>
-        <div className="flex items-center px-4 py-3 w-full rounded-t-md gap-2 border-b-3  border-cyan-800">
-            <div className="flex max-w-6xl mx-auto justify-between items-center w-full">
-                <div className="flex gap-3 items-center">
-                    <HeartHandshake className="w-8 h-8 text-cyan-800"/>
-                    <h1 className="text-2xl text-cyan-800 font-bold">
-                        Asisten RAB
-                        <br />
-                        <p className="text-sm font-medium">Selalu menampung keluhanmu kapan saja 😊</p> 
-                    </h1>
-                </div>
-                <Link to="/" className="bg-cyan-600 text-white rounded-md px-3 py-2 hover:bg-cyan-700 text-sm">
-                    Kembali
-                </Link>
+    <div className="flex flex-col min-h-screen bg-white">
+      {/* Header */}
+      <div className="sticky top-0 z-10 bg-white shadow-sm border-b p-4">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <HeartHandshake className="w-8 h-8 text-cyan-800" />
+            <div>
+              <h1 className="text-xl font-semibold text-cyan-800">Asisten RAB</h1>
+              <p className="text-sm text-gray-500">Menemani dan mendengarkan kapan saja 😊</p>
             </div>
-        </div>     
-        <div className="p-4 max-w-4xl mx-auto mt-5">
-            <div className="space-y-2 mb-4 h-120 overflow-y-auto p-2">
-            {messages.map((msg, i) => (
-                <>
-                <div
-                    className={`flex gap-2 content-center ${
-                    msg.role === "user" ? "flex-row-reverse" : "flex-row"
-                    }`}
-                >
-                    <div className="rounded-full w-8 h-8">
-                        {msg.role === "user" ? (
-                            <img
-                                className="h-full w-full rounded-full"
-                                src="https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png"
-                                alt=""
-                            />
-                        ) : (
-                            <BadgeCheck className="h-full w-full text-blue-600"/>
-                        )}
-                    </div>
-                    <div
-                    key={i}
-                    className={`p-2 rounded-lg whitespace-pre-wrap w-fit ${
-                        msg.role === "user"
-                        ? "bg-blue-100 text-right"
-                        : "bg-gray-100 text-left"
-                    }`}
-                    dangerouslySetInnerHTML={{
-                        __html: msg.content
-                        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-                        .replace(/\*(.*?)\*/g, "<em>$1</em>")
-                        .replace(/`(.*?)`/g, "<code>$1</code>")
-                        .replace(/\n/g, "<br>")
-                        .replace(/^- (.*)/gm, "• $1"),
-                    }}
-                    />
-                </div>
-                </>
-            ))}
-            <div ref={messagesEndRef} />
-            </div>
-            <div className="flex space-x-2">
-            <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                className="flex-1 p-2 border border-gray-300 rounded-lg"
-                placeholder="Tulis pesan..."
-                onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-            />
-            <button
-                onClick={sendMessage}
-                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-4 rounded-full"
-            >
-                <Send className="w-4 h-4"/>
-            </button>
-            </div>
+          </div>
+          <Link
+            to="/"
+            className="bg-cyan-600 hover:bg-cyan-700 text-white text-sm px-4 py-2 rounded-md"
+          >
+            Kembali
+          </Link>
         </div>
-    </>
+      </div>
+
+      {/* Chat Area */}
+      <div className="flex-1 overflow-y-auto px-4 pb-36 pt-4 max-w-3xl mx-auto w-full">
+        <div className="space-y-4">
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`flex items-start gap-3 ${
+                msg.role === "user" ? "flex-row-reverse justify-start" : "justify-start"
+              }`}
+            >
+              {/* Avatar */}
+              <div className="w-8 h-8 flex-shrink-0">
+                {msg.role === "user" ? (
+                  <img
+                    src="https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png"
+                    alt="User"
+                    className="w-8 h-8 rounded-full"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center">
+                    <BadgeCheck className="w-5 h-5 text-cyan-600" />
+                  </div>
+                )}
+              </div>
+
+              {/* Chat Bubble */}
+              <div
+                className={`max-w-[80%] px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
+                  msg.role === "user"
+                    ? "bg-cyan-600 text-white rounded-br-none"
+                    : "bg-gray-100 text-gray-800 rounded-bl-none"
+                }`}
+                dangerouslySetInnerHTML={{
+                  __html: msg.content
+                    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                    .replace(/\*(.*?)\*/g, "<em>$1</em>")
+                    .replace(/`(.*?)`/g, "<code>$1</code>")
+                    .replace(/\n/g, "<br>")
+                    .replace(/^- (.*)/gm, "• $1"),
+                }}
+              />
+            </div>
+          ))}
+
+          {/* Loading Bubble */}
+          {isLoading && (
+            <div className="flex items-start gap-3 justify-start">
+              <div className="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center">
+                <BadgeCheck className="w-5 h-5 text-cyan-600" />
+              </div>
+              <div className="bg-gray-100 text-gray-800 px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm rounded-bl-none animate-pulse">
+                ...
+              </div>
+            </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+      </div>
+
+      {/* Input Bar */}
+      <div className="fixed bottom-0 w-full z-20">
+        <div className="max-w-3xl mx-auto flex items-center px-4 pb-3 gap-2 bg-white">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            className="flex-1 px-4 py-3 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            placeholder="Tulis pesan..."
+          />
+          <button
+            onClick={sendMessage}
+            disabled={!input.trim()}
+            className={`p-3 rounded-full transition-all ${
+              input.trim()
+                ? "bg-cyan-600 hover:bg-cyan-700 text-white"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
+          >
+            <Send className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

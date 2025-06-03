@@ -22,6 +22,7 @@ export default function ReplyModal({ isOpen, onClose, onSubmit, threadTitle }) {
   const handleSubmit = () => {
     if (content) {
       onSubmit({ content })
+      setContent("")
     }
     onClose()
   }
