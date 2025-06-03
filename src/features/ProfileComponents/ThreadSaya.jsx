@@ -3,7 +3,7 @@ import { getThreadsbyUserId } from "../../services/forum";
 import { jwtDecode } from "jwt-decode";
 import { refreshToken } from "../../services/auth";
 import { Clock, PlusCircle } from "lucide-react";
-import { formatTimeAgo } from "../../utils/Time";
+import { formatTimeAgo } from "../../utils/time";
 import Button from "../../components/Button";
 
 const ThreadSaya = () => {

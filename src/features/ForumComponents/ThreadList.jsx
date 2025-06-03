@@ -1,5 +1,5 @@
 import { MessageSquare, Users, Clock, PlusCircle } from "lucide-react"
-import { formatTimeAgo } from "../../utils/Time"
+import { formatTimeAgo } from "../../utils/time"
 import { useNavigate } from "react-router-dom"
 import { getAllThreads } from "../../services/forum"
 import { useEffect, useState } from "react"

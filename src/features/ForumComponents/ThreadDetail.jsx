@@ -1,4 +1,4 @@
-import { formatTimeAgo } from "../../utils/Time"
+import { formatTimeAgo } from "../../utils/time"
 import { Clock, Reply, Trash } from "lucide-react"
 import { useState, useEffect } from "react"
 import { getAllComments, createComment, getThreadsbyId, deleteCommentById } from "../../services/forum"

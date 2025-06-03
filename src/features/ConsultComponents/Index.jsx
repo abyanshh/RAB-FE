@@ -8,7 +8,7 @@ import Button from "../../components/Button";
 import CategoryFilter from "../../components/CategoryFilter";
 import { refreshToken } from "../../services/auth";
 import { jwtDecode } from "jwt-decode";
-import { filterDoctors, sortDoctors } from "../../utils/doctorutils";
+import { filterDoctors, sortDoctors } from "../../utils/doctorUtils";
 import { getAllDoctor } from "../../services/doctor";
 import StatusModal from "../../components/StatusModal";
 
