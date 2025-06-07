@@ -24,7 +24,7 @@ const ProfilSaya = () => {
     try {
       const data = await getUserById(id, token);
       setUser(data);
-      setPreview(data?.avatar_url);
+      setPreview(data.avatar_url);
     } catch (error) {
       console.error("Gagal mengambil data user:", error);
     }
@@ -81,7 +81,7 @@ const ProfilSaya = () => {
           <div className="flex-shrink-0 relative group w-32 h-32">
             {/* Gambar Profil */}
             <img
-              src={preview || "/default-profile.png"}
+              src={preview || "image/image.png"}
               alt="Foto Profil"
               className="w-full h-full rounded-full object-cover border-4 border-cyan-500 shadow-md cursor-pointer transition-transform group-hover:scale-105"
               onClick={handleClickPhoto}
@@ -127,7 +127,7 @@ const ProfilSaya = () => {
             </p>
             <p>
               <span className="font-semibold">🎂 Tanggal Lahir:</span>{" "}
-              {user?.tanggal_lahir?.slice(0, 10) || "-"}
+              {user?.tanggal_lahir?.slice(0, 10)}
             </p>
           </div>
         </div>

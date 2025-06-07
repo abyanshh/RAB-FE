@@ -16,7 +16,7 @@ const ResetPassForm = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      toast.error("Passwords tidak sama", {
+      toast.error("Password tidak sama", {
         toastId: "reset-password-error",
         theme: "colored",
         autoClose: 3000,
