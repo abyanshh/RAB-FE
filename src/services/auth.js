@@ -1,70 +1,69 @@
 import axios from 'axios';
 
 export const login = async (email, password) => {
-  try {
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
-      email,
-      password,
-    }, { withCredentials: true });
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
+            email,
+            password,
+        }, { withCredentials: true });
 
-    return response.data;
-  } catch (error) {
-    const message = error.response?.data?.error || 'Terjadi kesalahan saat login';
-    throw new Error(message);
-  }
+        return response.data;
+    } catch (error) {
+        const message = error.response?.data?.error || 'Terjadi kesalahan saat login';
+        throw new Error(message);
+    }
 };
 
 export const register = async (username, full_name, email, password) => {
 
-  try {
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/register`, {
-      username,
-      full_name,
-      email,
-      password,
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/register`, {
+            username,
+            full_name,
+            email,
+            password,
 
-    });
-    return response.data;
-  } catch (error) {
-    const message = error.response?.data?.error || 'Terjadi kesalahan saat register';
-    throw new Error(message);
-  }
+        });
+        return response.data;
+    } catch (error) {
+        const message = error.response?.data?.error || 'Terjadi kesalahan saat register';
+        throw new Error(message);
+    }
 };
 
 export const googleRegister = async (code) => {
-  try {
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/register/google`, {
-      code,
-    });
-    return response.data;
-  } catch (error) {
-    const message = error.response?.data?.message || 'Terjadi kesalahan saat register dengan Google';
-    throw new Error(message);
-  }
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/register/google`, {
+            code,
+        });
+        return response.data;
+    } catch (error) {
+        const message = error.response?.data?.message || 'Terjadi kesalahan saat register dengan Google';
+        throw new Error(message);
+    }
 };
 
 export const googleLogin = async (code) => {
-  try {
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/login/google`, {
-      code,
-    }, { withCredentials: true });
-    return response.data;
-  } catch (error) {
-    const message = error.response?.data?.message || 'Terjadi kesalahan saat login dengan Google';
-    throw new Error(message);
-  }
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/login/google`, {
+            code,
+        },{ withCredentials: true });
+        return response.data;
+    } catch (error) {
+        const message = error.response?.data?.message || 'Terjadi kesalahan saat login dengan Google';
+        throw new Error(message);
+    }
 };
 
 export const logout = async () => {
-  try {
-    await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/logout`, {}, {
-      withCredentials: true
-    });
-
-  } catch (error) {
-    const message = error.response?.data?.error || 'Terjadi kesalahan saat logout';
-    throw new Error(message);
-  }
+    try {
+        await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/logout`, { 
+            withCredentials: true 
+        });
+    } catch (error) {
+        const message = error.response?.data?.error || 'Terjadi kesalahan saat logout';
+        throw new Error(message);
+    }
 };
 
 export const refreshToken = async () => {
