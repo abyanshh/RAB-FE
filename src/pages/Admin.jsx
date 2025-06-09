@@ -1,5 +1,5 @@
-import Navbar from "../layout/Navbar";
-import Sidebar from "../layout/Sidebar";
+import Navbar from "../Layout/Navbar";
+import Sidebar from "../Layout/Sidebar";
 import { NotebookTabs, User } from "lucide-react";
 import AdminLayout from "../features/AdminComponents/AdminLayout";
 
