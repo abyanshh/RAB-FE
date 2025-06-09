@@ -1,6 +1,7 @@
 import Button from '../../components/Button';
 import SearchFilter from '../../components/SearchFilter';
 import Modal from '../../components/OptionModal';
+import StatusModal from '../../components/StatusModal';
 import { useState, useEffect } from 'react';
 import Pagination from '../../components/Pagination';
 import { getAllUsers, updateRole } from '../../services/user';
@@ -18,6 +19,7 @@ export default function UserList() {
   const [token, setToken] = useState('');
   const [userId, setUserId] = useState('');
   const [selectedRole, setSelectedRole] = useState('user');
+  const [statusModalOpen, setStatusModalOpen] = useState(false);
   const dataPerPage = 10;
 
   const init = async () => {
@@ -37,6 +39,13 @@ export default function UserList() {
     init();
   }, []);
 
+  useEffect(() => {
+    if (statusModalOpen) {
+      const timer = setTimeout(() => setStatusModalOpen(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [statusModalOpen]);
+
   const handleOpenModal = (user) => {
     setSelectedUser(user);
     setShowModal(!showModal);
@@ -44,7 +53,9 @@ export default function UserList() {
 
   const handleUpdateRole = async (newRole) => {
     await updateRole(selectedUser.user_id, newRole.toLowerCase(), token);
-    handleOpenModal();
+    setSelectedUser(null)
+    setShowModal(false);
+    setStatusModalOpen(true);
     init();
   };
 
@@ -101,7 +112,6 @@ export default function UserList() {
                 <tr key={index} className="border-t border-gray-300 hover:bg-cyan-50 text-sm">
                   <td className="px-6 py-4">{user.username}</td>
 
-                  
                   <td className="px-6 py-4">{user.full_name}</td>
                   <td className="px-6 py-4">{user.email}</td>
                   <td className="px-6 py-4 text-center">{user?.tanggal_lahir?.slice(0, 10) || ""}</td>
@@ -131,6 +141,14 @@ export default function UserList() {
             { label: 'User', variant: 'blue' },
           ]}
         />
+        
+        <StatusModal
+          type="success"
+          message="Berhasil mengubah role" 
+          isOpen={statusModalOpen} 
+          onClose={() => setStatusModalOpen(false)}>
+          Berhasil mengubah role user
+        </StatusModal>
       </div>
 
       {/* Pagination */}

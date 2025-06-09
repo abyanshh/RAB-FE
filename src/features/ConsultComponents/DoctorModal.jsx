@@ -120,13 +120,13 @@ export default function DoctorModal({
                           value={selectedDay}
                           onChange={(e) => setSelectedDay(e.target.value)}
                         >
-                          <option value="" disabled selected>
+                          <option value="" disabled>
                             Pilih hari
                           </option>
-                          {selectedDoctor?.hari.map((avail) => (
-                            <option  value={avail}>
+                          {selectedDoctor?.hari.map((avail, idx) => (
+                            <option key={`day-${idx}`} value={avail}>
                               {avail}
-                            </option> 
+                            </option>
                           ))}
                         </select>
                       </div>
@@ -143,11 +143,11 @@ export default function DoctorModal({
                           value={selectedTime}
                           onChange={(e) => setSelectedTime(e.target.value)}
                         >
-                          <option value="" disabled selected>
+                          <option value="" disabled>
                             Pilih Waktu
                           </option>
-                          {selectedDoctor?.waktu.map((avail) => (
-                            <option  value={avail}>
+                          {selectedDoctor?.waktu.map((avail , idx) => (
+                            <option  key={`time-${idx}`} value={avail}>
                               {avail}
                             </option>
                           ))}

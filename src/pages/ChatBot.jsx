@@ -169,7 +169,7 @@ const ChatBot = () => {
           <button
             onClick={sendMessage}
             disabled={!input.trim()}
-            className={`p-3 rounded-full transition-all ${
+            className={`p-3 rounded-full transition-all mr-3 ${
               input.trim()
                 ? "bg-cyan-600 hover:bg-cyan-700 text-white"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"

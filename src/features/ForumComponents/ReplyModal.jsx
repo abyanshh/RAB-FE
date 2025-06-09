@@ -1,9 +1,7 @@
-"use client"
-
 import { useState, useRef, useEffect } from "react"
 import { X } from "lucide-react"
 
-export default function ReplyModal({ isOpen, onClose, onSubmit, threadTitle }) {
+export default function ReplyModal({ isOpen, onClose, onSubmit, threadTitle, parent_id }) {
   const [content, setContent] = useState("")
   const modalRef = useRef(null)
 
@@ -19,12 +17,17 @@ export default function ReplyModal({ isOpen, onClose, onSubmit, threadTitle }) {
     }
   }, [onClose])
 
+  useEffect(() => {
+    if (isOpen) setContent("")
+  }, [isOpen])
+
   const handleSubmit = () => {
     if (content) {
-      onSubmit({ content })
+       console.log("Submit isi balasan:", { content, parent_id }); // <-- debug
+      onSubmit({ content, parent_id })
       setContent("")
+      onClose()
     }
-    onClose()
   }
 
   if (!isOpen) return null
@@ -50,7 +53,7 @@ export default function ReplyModal({ isOpen, onClose, onSubmit, threadTitle }) {
               className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
               onClick={onClose}
             >
-              <span className="sr-only">Close</span>
+              <span className="sr-only">Tutup</span>
               <X className="h-6 w-6" />
             </button>
           </div>
@@ -58,9 +61,13 @@ export default function ReplyModal({ isOpen, onClose, onSubmit, threadTitle }) {
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Balas Thread: {threadTitle}</h3>
+                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                  {parent_id ? "Balas Komentar" : `Balas Thread: ${threadTitle}`}
+                </h3>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">Tulis balasan Anda untuk thread ini.</p>
+                  <p className="text-sm text-gray-500">
+                    {parent_id ? "Tulis balasan Anda terhadap komentar yang dipilih." : "Tulis balasan Anda untuk thread ini."}
+                  </p>
                 </div>
 
                 <div className="mt-4">

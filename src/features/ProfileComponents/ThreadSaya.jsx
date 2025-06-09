@@ -26,7 +26,7 @@ const ThreadSaya = () => {
       };
   
     return (
-      <div className="p-6 max-w-6xl mt-20 mx-auto">
+      <div className="p-6 max-w-6xl mx-auto">
         <div className="max-w-3xl">
         <h2 className="text-2xl font-semibold text-cyan-800 mb-4">Thread Saya</h2>
         {threads.length === 0 ? (

@@ -1,6 +1,6 @@
 import ProfileLayout from "../features/ProfileComponents/ProfileLayout";
-import Navbar from "../Layout/Navbar";
-import Sidebar from "../Layout/Sidebar";
+import Navbar from "../layout/Navbar";
+import Sidebar from "../layout/Sidebar";
 import { MessageSquareQuote, NotebookTabs, User } from "lucide-react";
 
 const Profile = () => {

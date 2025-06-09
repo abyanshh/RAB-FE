@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { refreshToken } from "../../services/auth";
 import { getUserById } from "../../services/user";
 import Button from "../../components/Button";
-import { CirclePlus } from "lucide-react";
+import { Camera } from "lucide-react";
 
 const ProfilSaya = () => {
   const [user, setUser] = useState({});
@@ -70,7 +70,7 @@ const ProfilSaya = () => {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto mt-20">
+    <div className="p-6 max-w-3xl mx-auto">
       <h2 className="text-3xl font-bold text-cyan-800 mb-6 text-center">
         Profil Saya
       </h2>
@@ -90,7 +90,7 @@ const ProfilSaya = () => {
             {/* Input file tersembunyi */}
             <input
               type="file"
-              accept="image/*"
+              accept=".jpg, .jpeg, .png"
               ref={fileInputRef}
               className="hidden"
               onChange={handleFileChange}
@@ -101,7 +101,7 @@ const ProfilSaya = () => {
               onClick={handleClickPhoto}
               className="absolute inset-0 bg-gray-500/75 rounded-full flex items-center justify-center text-white font-semibold text-sm opacity-0 group-hover:opacity-100 transition duration-300 cursor-pointer"
             >
-              <CirclePlus className="w-10 h-10" />
+              <Camera className="w-10 h-10" />
             </div>
           </div>
 

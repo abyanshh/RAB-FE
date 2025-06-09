@@ -1,4 +1,4 @@
-import { MessageSquare, Users, Clock, PlusCircle } from "lucide-react"
+import { MessageSquare, Users, Clock, PlusCircle, Trash } from "lucide-react"
 import { formatTimeAgo } from "../../utils/time"
 import { useNavigate } from "react-router-dom"
 import { getAllThreads } from "../../services/forum"
@@ -98,8 +98,8 @@ export default function ThreadList ({ token, role })  {
                 className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-md transition-colors flex items-center"
                 onClick={() => setIsCreateThreadModalOpen(true)}
               >
-                <PlusCircle className="h-5 w-5 mr-2" />
-                Thread Baru
+                <PlusCircle className="h-5 w-5 md:mr-2" />
+                <span className="hidden md:block">Thread Baru</span>
               </button>
             )}
           </div>
@@ -136,7 +136,7 @@ export default function ThreadList ({ token, role })  {
                         className="mt-4 rounded-md"
                         onClick={() => handleDeleteThreads(thread, token)}
                       >
-                        Hapus
+                        <Trash className="h-4 w-4" />
                       </Button>
                     )}
                   </div>

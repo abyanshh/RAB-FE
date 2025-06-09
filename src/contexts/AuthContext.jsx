@@ -1,31 +1,45 @@
 import { createContext, useEffect, useState } from "react";
 import { refreshToken, logout as logoutService } from "../services/auth";
+import { jwtDecode } from "jwt-decode";
+import { getUserById } from "../services/user";
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
   const [token, setToken] = useState("");
 
-  useEffect(() => {
-    const fetchToken = async () => {
-      const accessToken = await refreshToken();
-      if (accessToken) setToken(accessToken);
-    };
-    fetchToken();
-  }, []);
-
-  const logout = async () => {
+  const fetchUser = async () => {
     try {
-      await logoutService();
+      const accessToken = await refreshToken();
+      setToken(accessToken);
+      const decoded = jwtDecode(accessToken);
+      setRole(decoded.role);
+      const userData = await getUserById(decoded.id, accessToken);
+      setUser(userData);
+    } catch (err) {
+      console.error("Auth error:", err);
+      setUser(null);
+      setRole(null);
       setToken("");
-    } catch (error) {
-      console.error("Logout gagal:", error.message);
     }
   };
 
+  const logout = async () => {
+    await logoutService();
+    setUser(null);
+    setRole(null);
+    setToken("");
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ token, setToken, logout }}>
+    <AuthContext.Provider value={{ user, role, token, logout, fetchUser }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}

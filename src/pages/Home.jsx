@@ -1,5 +1,4 @@
 import Button from '../components/Button'
-import MainLayout from '../Layout/MainLayout'
 import heroImage2 from '/image/2222.png'
 import { useEffect, useState } from 'react'
 import { MdOutlineScreenSearchDesktop as Icon1, MdDiversity1 as Icon3 } from "react-icons/md";
@@ -53,12 +52,12 @@ const disorders = [
 
 const Home = () => {
   return (
-    <MainLayout>
+    <>
       <HeroSection/>
       <FirstSection/>
       <SecondSection/>
       <ThirdSection/>
-    </MainLayout>
+    </>
   )
 }
 

@@ -31,10 +31,10 @@ export const register = async (username, full_name, email, password) => {
     }
 };
 
-export const googleRegister = async (id_token) => {
+export const googleRegister = async (code) => {
     try {
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/register/google`, {
-            id_token,
+            code,
         });
         return response.data;
     } catch (error) {
@@ -43,10 +43,10 @@ export const googleRegister = async (id_token) => {
     }
 };
 
-export const googleLogin = async (id_token) => {
+export const googleLogin = async (code) => {
     try {
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/login/google`, {
-            id_token,
+            code,
         },{ withCredentials: true });
         return response.data;
     } catch (error) {
@@ -57,7 +57,7 @@ export const googleLogin = async (id_token) => {
 
 export const logout = async () => {
     try {
-        await axios.delete(`${import.meta.env.VITE_BASE_URL}/auth/logout`, { 
+        await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/logout`, { 
             withCredentials: true 
         });
     } catch (error) {

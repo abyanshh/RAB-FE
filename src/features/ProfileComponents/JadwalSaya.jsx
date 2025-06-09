@@ -48,7 +48,7 @@ const JadwalSaya = () => {
 
   return (
     <>
-      <div className="p-6 max-w-6xl mx-auto mt-20 mb-5">
+      <div className="p-6 max-w-6xl mx-auto mb-5">
         <h2 className="text-2xl font-semibold text-cyan-800 mb-4">
           Jadwal Saya
         </h2>
@@ -72,7 +72,7 @@ const JadwalSaya = () => {
             <div className="grid grid-cols md:grid-cols-2  gap-4">
               {jadwalKonsultasi.map((jadwal) => (
                 <div
-                  key={jadwal.id}
+                  key={jadwal.appointment_id}
                   className="border border-cyan-700 rounded-xl p-5 bg-white shadow-lg space-y-4"
                 >
                   <div className="space-y-2 text-gray-700">

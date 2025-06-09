@@ -41,7 +41,8 @@ CREATE TABLE users (
     created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
     alamat TEXT,
     phone_number VARCHAR(15),
-    tanggal_lahir DATE
+    tanggal_lahir DATE,
+    provider VARCHAR(255)
 );
 
 -- Contoh foreign key dari tabel lain (harus dibuat di tabel-tabel tersebut):

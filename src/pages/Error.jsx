@@ -1,20 +1,31 @@
-import { useRouteError } from "react-router-dom"
-import MainLayout from "../Layout/MainLayout";
+import { useRouteError, Link } from "react-router-dom";
 
 const Error = () => {
   const error = useRouteError();
-    console.error(error);
-    return (
-      <MainLayout>
-        <div className="flex justify-center min-h-100 items-center flex-col">
-            <h1 className="text-3xl font-bold mb-2">Oops!</h1>
-            <div className="font-medium text-center text-slate-500">
-                <p>Sorry, an unexpected error has occurred.</p>
-                <i>{error.statusText || error.message}</i>
-            </div>
-        </div>
-      </MainLayout>
-    )
-}
+  console.error(error);
 
-export default Error
+  return (
+    <div className="min-h-screen flex flex-col items-center text-center px-4">
+      <img 
+        src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdjhsM2lwMzc1NGIxamVqZ3Fhc2xrbzJla20xczRuYW5sZW9zMmhnYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/aVfPgosI7ksiBBsTtZ/giphy.gif" 
+        alt="Error gif" 
+        className="w-64 h-64 object-contain mb-6 rounded-full"
+      />
+
+      <h1 className="text-3xl font-bold text-cyan-700 mb-2">Oops! 😵</h1>
+      <p className="text-lg text-slate-600 mb-4">Sorry, an unexpected error has occurred.</p>
+      <p className="text-sm text-slate-500 italic mb-6">
+        {error?.statusText || error?.message}
+      </p>
+
+      <Link 
+        to="/" 
+        className="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold px-6 py-2 rounded-lg transition-all"
+      >
+      Kembali
+      </Link>
+    </div>
+  );
+};
+
+export default Error;

@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Button from '../../components/Button'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import { login, googleLogin } from '../../services/auth'
-import { GoogleLogin } from '@react-oauth/google'
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google'
 import { motion, AnimatePresence } from "framer-motion";
+import { AuthContext } from '../../contexts/AuthContext'
 
 const LoginForm = () => {
-
+  
+  const { fetchUser } = useContext(AuthContext);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
@@ -30,6 +32,29 @@ const LoginForm = () => {
       return () => clearInterval(interval);
     }, []);
 
+  const handleGoogleLogin = useGoogleLogin({
+    flow : "auth-code",
+    onSuccess: async (credentialResponse) => {
+      try {
+        const data = await googleLogin(credentialResponse.code);
+        toast.success(data.message, {
+          toastId: "registration-success",
+          theme: "colored",
+          autoClose: 3000,
+        });
+
+        await fetchUser();
+        setTimeout(() => navigate("/"), 2000);
+      } catch (error) {
+        toast.error(error.message, {
+          toastId: "registration-error",
+          theme: "colored",
+          autoClose: 3000,
+        });
+      }
+    },
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -41,6 +66,7 @@ const LoginForm = () => {
         autoClose: 3000,
       });
 
+      await fetchUser();
       setTimeout(() => navigate('/'), 2000);
     } catch (error) {
       toast.error(error.message, {
@@ -84,6 +110,7 @@ const LoginForm = () => {
 
           <Button className={'w-full mb-2'} variant="orange">Login</Button>
         </form>
+        {/* <Button className={'w-full mb-2'} variant="orange" onClick={handleGoogleLogin}>Login dengan google</Button> */}
         <GoogleLogin
           onSuccess={async (credentialResponse) => {
             try {

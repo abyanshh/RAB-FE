@@ -3,7 +3,7 @@ import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { register, googleRegister } from "../../services/auth";
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { motion, AnimatePresence } from "framer-motion";
 
 const RegisterForm = () => {
@@ -31,6 +31,27 @@ const RegisterForm = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  const handleRegisterLogin = useGoogleLogin({
+    flow : "auth-code",
+    onSuccess: async (credentialResponse) => {
+      try {
+        const data = await googleRegister(credentialResponse.code);
+        toast.success(data.message, {
+          toastId: "registration-success",
+          theme: "colored",
+          autoClose: 3000,
+        });
+        setTimeout(() => navigate("/login"), 2000);
+      } catch (error) {
+        toast.error(error.message, {
+          toastId: "registration-error",
+          theme: "colored",
+          autoClose: 3000,
+        });
+      }
+    },
+  });
 
 
   const handleSubmit = async (e) => {
@@ -134,6 +155,9 @@ const RegisterForm = () => {
             Daftar
           </Button>
         </form>
+        {/* <Button className="w-full mb-2" variant="orange" onClick={handleRegisterLogin}>
+          Login dengan google
+        </Button> */}
 
         <GoogleLogin
           onSuccess={async (credentialResponse) => {

@@ -54,7 +54,7 @@ export default function ScheduleList() {
 
   const handleOpenModal = (appointment) => {
     setSelectedAppointment(appointment);
-    setShowModal(true);
+    setShowModal(!showModal);
   };
 
   // Filter berdasarkan nama user
