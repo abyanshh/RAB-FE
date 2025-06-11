@@ -1,32 +1,37 @@
-import { useState, useRef, useEffect } from "react"
-import { X } from "lucide-react"
+import { useState, useRef, useEffect } from "react";
+import { X } from "lucide-react";
 
-export default function CreateThreadModal({ isOpen, onClose, onSubmit, categoryName }) {
-  const [title, setTitle] = useState("")
-  const [content, setContent] = useState("")
-  const modalRef = useRef(null)
+export default function CreateThreadModal({
+  isOpen,
+  onClose,
+  onSubmit,
+  categoryName,
+}) {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const modalRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose()
+        onClose();
       }
     }
-    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [onClose])
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   const handleSubmit = () => {
     if (title && content) {
-      onSubmit({ title, content })
-      setTitle("")
-      setContent("")
+      onSubmit({ title, content });
+      setTitle("");
+      setContent("");
     }
-  }
+  };
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
@@ -35,7 +40,10 @@ export default function CreateThreadModal({ isOpen, onClose, onSubmit, categoryN
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
 
-        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+        <span
+          className="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+        >
           &#8203;
         </span>
 
@@ -55,50 +63,62 @@ export default function CreateThreadModal({ isOpen, onClose, onSubmit, categoryN
           </div>
 
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-              <div className="mt-3 text-left w-full">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Buat Thread Baru</h3>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">Silakan isi judul dan konten thread yang ingin Anda buat.</p>
+            <div className="mt-3 text-left w-full">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">
+                Buat Thread Baru
+              </h3>
+              <div className="mt-2">
+                <p className="text-sm text-gray-500">
+                  Silakan isi judul dan konten thread yang ingin Anda buat.
+                </p>
+              </div>
+
+              <div className="mt-4 space-y-4">
+                <div>
+                  <label
+                    htmlFor="thread-title"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Judul Thread
+                  </label>
+                  <input
+                    type="text"
+                    id="thread-title"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+                    placeholder="Masukkan judul thread"
+                    value={title}
+                    maxLength={75}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
                 </div>
 
-                <div className="mt-4 space-y-4">
-                  <div>
-                    <label htmlFor="thread-title" className="block text-sm font-medium text-gray-700">
-                      Judul Thread
-                    </label>
-                    <input
-                      type="text"
-                      id="thread-title"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
-                      placeholder="Masukkan judul thread"
-                      value={title}
-                      maxLength={75}
-                      onChange={(e) => setTitle(e.target.value)}
-                    />
-                  <div className="mt-2 text-right text-xs text-gray-400">
+                <div>
+                  <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="thread-content"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Konten
+                  </label>
+                  <div className="text-right text-xs text-gray-400">
                     {title.length} / 75
                   </div>
                   </div>
-
-                  <div>
-                    <label htmlFor="thread-content" className="block text-sm font-medium text-gray-700">
-                      Konten
-                    </label>
-                    <textarea
-                      id="thread-content"
-                      rows={6}
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
-                      placeholder="Tulis konten thread Anda di sini..."
-                      value={content}
-                      maxLength={200}
-                      onChange={(e) => setContent(e.target.value)}
-                    />
+                  <textarea
+                    id="thread-content"
+                    rows={6}
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+                    placeholder="Tulis konten thread Anda di sini..."
+                    value={content}
+                    maxLength={200}
+                    onChange={(e) => setContent(e.target.value)}
+                  />
                   <div className="mt-2 text-right text-xs text-gray-400">
                     {content.length} / 200
                   </div>
-                  </div>
                 </div>
               </div>
+            </div>
           </div>
 
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -123,5 +143,5 @@ export default function CreateThreadModal({ isOpen, onClose, onSubmit, categoryN
         </div>
       </div>
     </div>
-  )
+  );
 }

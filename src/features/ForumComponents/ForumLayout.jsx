@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { refreshToken } from "../../services/auth";
 import { jwtDecode } from "jwt-decode";
 import { motion } from "framer-motion";
+import ThreadList from "./ThreadList";
+import ThreadDetail from "./ThreadDetail";
 
 const ForumLayouts = () => {
   const location = useLocation();
@@ -14,6 +16,16 @@ const ForumLayouts = () => {
     setToken(accessToken);
     const decoded = jwtDecode(accessToken);
     setRole(decoded.role);
+  };
+
+  const renderContent = () => {
+    if (location.pathname === "/forum") {
+      return <ThreadList token={token} role={role} />;
+    } else if (location.pathname.startsWith("/forum/")) {
+      return <ThreadDetail token={token} role={role} />;
+    } else {
+      return <Outlet />;
+    }
   };
 
   useEffect(() => {
@@ -34,7 +46,7 @@ const ForumLayouts = () => {
           Konsultasi dan berbagi cerita bersama.
         </p>
       </div>
-      <Outlet />
+      {renderContent()}
     </motion.div>
   );
 };
