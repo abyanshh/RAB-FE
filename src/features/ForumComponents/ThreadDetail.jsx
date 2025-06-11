@@ -77,7 +77,6 @@ export default function ThreadDetail({ token, role }) {
     <>
       <Navigation currentThread={thread} onBackToThreads={handleBackToThreads} />
       <div className="bg-white rounded-lg shadow-md overflow-hidden border-1 border-gray-200">
-        {/* Thread Header */}
         <div className="p-6 border-b border-gray-200">
           <h2 className="font-bold text-2xl mb-3">{thread.title}</h2>
           <div className="flex items-center text-sm text-gray-600 mb-4">
@@ -88,7 +87,7 @@ export default function ThreadDetail({ token, role }) {
             <span>{formatTimeAgo(thread.created_at)}</span>
           </div>
           <div className="text-gray-800 mb-6">
-            <p className="whitespace-pre-line">{thread.content}</p>
+            <p className="whitespace-pre-line break-words">{thread.content}</p>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -106,12 +105,10 @@ export default function ThreadDetail({ token, role }) {
           </div>
         </div>
 
-        {/* Replies Header */}
         <div className="p-4 bg-gray-50 border-b border-gray-200">
           <h3 className="font-bold text-lg">Balasan ({replies?.length || 0})</h3>
         </div>
 
-        {/* Replies List */}
         <div className="divide-y divide-gray-200">
           {mainReplies.length > 0 ? (
             mainReplies.slice(0).reverse().map(reply => (
@@ -139,7 +136,6 @@ export default function ThreadDetail({ token, role }) {
           )}
         </div>
 
-        {/* Reply Modal */}
         <ReplyModal
           isOpen={isReplyModalOpen.open}
           onClose={() => setIsReplyModalOpen({ open: false, parent_id: null })}

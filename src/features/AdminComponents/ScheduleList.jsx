@@ -67,7 +67,7 @@ export default function ScheduleList() {
   const currentAppointments = filteredAppointmentsList.slice(indexOfFirst, indexOfLast);
 
   return (
-    <div className="max-w-6xl mx-auto py-8 p-4">
+    <div className="grid max-w-6xl mx-auto py-8 p-4">
       <h1 className="text-2xl md:text-3xl font-bold mb-6 text-cyan-800">
         Jadwal <span className="text-cyan-800">Konsultasi User</span>
       </h1>
@@ -88,7 +88,7 @@ export default function ScheduleList() {
         />
       </div>
 
-      <div className="border border-gray-300 bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="border border-gray-300 bg-white rounded-lg shadow-md overflow-x-auto">
         <table className="min-w-full bg-white shadow rounded-lg overflow-hidden">
           <thead className="bg-cyan-600/85 text-white font-semibold">
             <tr>

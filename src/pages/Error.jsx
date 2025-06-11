@@ -1,4 +1,5 @@
-import { useRouteError, Link } from "react-router-dom";
+import { useRouteError } from "react-router-dom";
+import Button from "../components/Button";
 
 const Error = () => {
   const error = useRouteError();
@@ -12,20 +13,22 @@ const Error = () => {
         className="w-64 h-64 object-contain mb-6 rounded-full"
       />
 
-      <h1 className="text-3xl font-bold text-cyan-700 mb-2">Oops! 😵</h1>
+      <h1 className="text-3xl font-bold text-cyan-700 mb-2">Oops!</h1>
       <p className="text-lg text-slate-600 mb-4">Sorry, an unexpected error has occurred.</p>
-      <p className="text-sm text-slate-500 italic mb-6">
+      <p className="text-sm text-slate-500 italic mb-2">
         {error?.statusText || error?.message}
       </p>
 
-      <Link 
+      <Button
+        as='link'
         to="/" 
-        className="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold px-6 py-2 rounded-lg transition-all"
+        variant="blue"
       >
       Kembali
-      </Link>
+      </Button>
     </div>
   );
 };
 
 export default Error;
+

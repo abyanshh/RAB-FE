@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { login, googleLogin } from '../../services/auth'
 import { GoogleLogin, useGoogleLogin } from '@react-oauth/google'
 import { motion, AnimatePresence } from "framer-motion";
+import Modal from '../../components/Modal' 
 import { AuthContext } from '../../contexts/AuthContext'
 
 const LoginForm = () => {
@@ -13,6 +14,7 @@ const LoginForm = () => {
   const { fetchUser } = useContext(AuthContext);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const [quoteIndex, setQuoteIndex] = useState(0);
 
@@ -57,6 +59,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const data = await login(email, password);
 
@@ -74,103 +77,119 @@ const LoginForm = () => {
         theme: 'colored',
         autoClose: 3000,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
 
   return (
-    <div className="flex flex-col md:flex-row-reverse items-center justify-center px-4 max-w-6xl mx-auto">
-      <div className="w-full md:w-1/2 max-w-xl bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Login</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-600 mb-1">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-          </div>
-
-          <div>
-            <div className="flex justify-between items-center text-sm font-medium text-gray-600 mb-1">
-              <label className="block text-sm font-medium text-gray-600 mb-1">Password</label>
-              <Link to="/forgot-password" className="text-orange-500 hover:underline">Lupa Password?</Link>
+    <>
+      <div className="flex flex-col md:flex-row-reverse items-center justify-center px-4 max-w-6xl mx-auto">
+        <div className="w-full md:w-1/2 max-w-xl bg-white p-8 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Login</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              />
             </div>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-          </div>
 
-          <Button className={'w-full mb-2'} variant="orange">Login</Button>
-        </form>
-        {/* <Button className={'w-full mb-2'} variant="orange" onClick={handleGoogleLogin}>Login dengan google</Button> */}
-        <GoogleLogin
-          onSuccess={async (credentialResponse) => {
-            try {
-              const id_token = credentialResponse.credential;
-              console.log("ID Token:", id_token);
+            <div>
+              <div className="flex justify-between items-center text-sm font-medium text-gray-600 mb-1">
+                <label className="block text-sm font-medium text-gray-600 mb-1">Password</label>
+                <Link to="/forgot-password" className="text-orange-500 hover:underline">Lupa Password?</Link>
+              </div>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              />
+            </div>
 
-              const res = await googleLogin( id_token );
+            <Button className={'w-full mb-2'} variant="orange">Login</Button>
+          </form>
+          {/* <Button className={'w-full mb-2'} variant="orange" onClick={handleGoogleLogin}>Login dengan google</Button> */}
+          <GoogleLogin
+            onSuccess={async (credentialResponse) => {
+              try {
+                const id_token = credentialResponse.credential;
+                console.log("ID Token:", id_token);
 
-              toast.success(res.message || "Google register berhasil", {
-                toastId: "google-registration-success",
+                const res = await googleLogin( id_token );
+
+                toast.success(res.message || "Google register berhasil", {
+                  toastId: "google-registration-success",
+                  theme: "colored",
+                  autoClose: 3000,
+                });
+                setTimeout(() => navigate("/"), 2000);
+              } catch (error) {
+                toast.error(error.message || "Google register gagal", {
+                  toastId: "google-registration-error",
+                  theme: "colored",
+                  autoClose: 3000,
+                });
+              }
+            }}
+            onError={() => {
+              toast.error("Google login gagal", {
+                toastId: "google-login-error",
                 theme: "colored",
                 autoClose: 3000,
               });
-              setTimeout(() => navigate("/"), 2000);
-            } catch (error) {
-              toast.error(error.message || "Google register gagal", {
-                toastId: "google-registration-error",
-                theme: "colored",
-                autoClose: 3000,
-              });
-            }
-          }}
-          onError={() => {
-            toast.error("Google login gagal", {
-              toastId: "google-login-error",
-              theme: "colored",
-              autoClose: 3000,
-            });
-          }}
-          shape="pill"
-          logo_alignment="center"
-        />
-        <ToastContainer/>
-        <p className="text-center text-sm text-gray-500 mt-4">
-          Belum punya akun? <Link to="/register" className="text-orange-500 hover:underline">Daftar</Link>
-        </p>
-      </div>
-       {/* Sisi Kanan */}
-      <div className="hidden md:flex w-full md:w-1/2 p-4 mr-10 transition-all">
-        <div className="max-w-xl">
-          <h3 className="text-3xl font-semibold text-cyan-700 mb-4">
-            #RuangAmanUntukSemua
-          </h3>
-          <div className="flex">
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={quoteIndex}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.6 }}
-                className="text-gray-600 text-lg"
-              >
-                {quotes[quoteIndex]}
-              </motion.p>
-            </AnimatePresence>
+            }}
+            shape="pill"
+            logo_alignment="center"
+          />
+          <ToastContainer/>
+          <p className="text-center text-sm text-gray-500 mt-4">
+            Belum punya akun? <Link to="/register" className="text-orange-500 hover:underline">Daftar</Link>
+          </p>
+        </div>
+        {/* Sisi Kanan */}
+        <div className="hidden md:flex w-full md:w-1/2 p-4 mr-10 transition-all">
+          <div className="max-w-xl">
+            <h3 className="text-3xl font-semibold text-cyan-700 mb-4">
+              #RuangAmanUntukSemua
+            </h3>
+            <div className="flex">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={quoteIndex}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-gray-600 text-lg"
+                >
+                  {quotes[quoteIndex]}
+                </motion.p>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Modal isOpen={loading}>
+        <div className="flex flex-col items-center justify-center min-h-[180px] space-y-4">
+          <div className="relative w-16 h-16">
+            <div className="absolute inset-0 rounded-full border-4 border-blue-300 opacity-25" />
+            <div className="w-full h-full border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          </div>
+          <div className="text-center">
+            <h3 className="text-lg font-medium text-gray-700">Sedang memuat</h3>
+            <p className="text-sm text-gray-500">Mohon tunggu sebentar...</p>
+          </div>
+        </div>
+      </Modal>
+    </>
   )
 }
 

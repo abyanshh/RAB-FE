@@ -89,7 +89,7 @@ const Navbar = () => {
           {user ? (
             <>
               <Link to="/profile" onClick={() => setIsOpen(false)}>Profile</Link>
-              <button onClick={handleLogout} className="text-red-600 ">Logout</button>
+              <button onClick={handleLogout} className="text-start text-red-600 hover:text-red-700 cursor-pointer">Logout</button>
             </>
           ) : (
             <Link to="/login" onClick={() => setIsOpen(false)}>Login</Link>

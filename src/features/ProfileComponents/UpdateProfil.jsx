@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { refreshToken } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
 import { getUserById, updateUserById } from "../../services/user";
+import { UserCog } from "lucide-react";
 const UpdateProfil = () => {
   const [user, setUser] = useState({});
   const [token, setToken] = useState("");
@@ -125,8 +126,8 @@ const UpdateProfil = () => {
             className="w-full p-2 border border-cyan-700 rounded"
           />
         </div>
-        <Button variant="yellow" className="rounded-md">
-          ✏️ Update
+        <Button variant="blue" className="flex rounded-md hover:scale-105">
+          <UserCog className="mr-2" /> Update
         </Button>
       </form>
     </div>

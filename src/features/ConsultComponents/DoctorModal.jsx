@@ -27,8 +27,15 @@ export default function DoctorModal({
       await createConsult(selectedDoctor.doctor_id, data, token);
       setBookingSuccess(true);
       setTimeout(() => {
-        closeModal();
+        const whatsappMessage = `Halo Admin, saya sudah membuat janji dengan ${selectedDoctor.full_name} pada hari ${selectedDay} jam ${selectedTime} melalui web Ruang Aman Bersama. Terima kasih.`;
+        const whatsappURL = new URL("https://api.whatsapp.com/send");
+        whatsappURL.searchParams.set("phone", "+6281210907537");
+        whatsappURL.searchParams.set("text", whatsappMessage);
+        whatsappURL.searchParams.set("type", "phone_number");
+        whatsappURL.searchParams.set("app_absent", "0");
         setBookingSuccess(false);
+        closeModal();
+        window.open(whatsappURL.toString(), '_blank');
       }, 3000);
     } catch (err) {
       console.error("Gagal:", err);

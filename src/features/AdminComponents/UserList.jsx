@@ -67,7 +67,7 @@ export default function UserList() {
   const currentUsers = filteredUsersList.slice(indexOfFirst, indexOfLast);
 
   return (
-    <div className="md:max-w-6xl max-w-xl mx-auto py-8 p-4">
+    <div className="grid max-w-6xl mx-auto py-8 p-4">
       <h1 className="text-2xl md:text-3xl font-bold mb-6 text-cyan-800">
         Akun Semua User
       </h1>

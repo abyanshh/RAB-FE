@@ -25,7 +25,7 @@ export const getThreadsbyUserId = async (userId) => {
     return response.data.forum
   } catch (error) {
     console.error("Gagal mengambil data forum:", error)
-    return {}
+    return []
   }
 }
 

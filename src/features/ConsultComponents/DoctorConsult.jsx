@@ -8,7 +8,7 @@ export default function DoctorConsult({ doctors, openBookingDialog, token, user,
       {doctors.map((doctor, index) => (
         <div
           key={index}
-          className="bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden"
+          className="bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden hover:scale-105 duration-500"
         >
           <div className="flex flex-col h-full">
             <div className="p-4 flex gap-4 h-full">

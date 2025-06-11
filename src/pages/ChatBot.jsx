@@ -157,7 +157,7 @@ const ChatBot = () => {
 
       {/* Input Bar */}
       <div className="fixed bottom-0 w-full z-20">
-        <div className="max-w-3xl mx-auto flex items-center px-4 pb-3 gap-2 bg-white">
+        <div className="max-w-md md:max-w-3xl mx-auto flex items-center px-4 pb-3 gap-2 bg-white">
           <input
             type="text"
             value={input}
