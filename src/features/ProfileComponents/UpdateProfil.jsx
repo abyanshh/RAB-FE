@@ -68,8 +68,9 @@ const UpdateProfil = () => {
             id="username"
             value={user?.username || ""}
             onChange={(e) => setUser({ ...user, username: e.target.value })}
-            className="w-full p-2 border border-cyan-700 rounded"
+            className="w-full p-2 border border-cyan-700 rounded text-gray-500"
             placeholder="Nama"
+            disabled
           />
         </div>
         <div>
@@ -91,7 +92,7 @@ const UpdateProfil = () => {
             No. HP
           </label>
           <input
-            type="text"
+            type="number"
             id="phone_number"
             value={user?.phone_number || ""}
             onChange={(e) => setUser({ ...user, phone_number: e.target.value })}

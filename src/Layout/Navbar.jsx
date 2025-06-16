@@ -43,7 +43,7 @@ const Navbar = () => {
               <img
                 src={user.avatar_url || "image/image.png"}
                 alt="Profile"
-                className="border-2 w-10 h-10 rounded-full cursor-pointer hover:scale-105"
+                className="w-10 h-10 rounded-full cursor-pointer hover:scale-125 hover:border-4 hover:border-gray-200"
                 onClick={toggleProfileMenu}
               />
               {isProfileOpen && (

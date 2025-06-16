@@ -8,6 +8,7 @@ import { GoogleLogin, useGoogleLogin } from '@react-oauth/google'
 import { motion, AnimatePresence } from "framer-motion";
 import Modal from '../../components/Modal' 
 import { AuthContext } from '../../contexts/AuthContext'
+import { FcGoogle } from "react-icons/fc";
 
 const LoginForm = () => {
   
@@ -116,8 +117,8 @@ const LoginForm = () => {
 
             <Button className={'w-full mb-2'} variant="orange">Login</Button>
           </form>
-          {/* <Button className={'w-full mb-2'} variant="orange" onClick={handleGoogleLogin}>Login dengan google</Button> */}
-          <GoogleLogin
+          <Button className={'w-full mb-2 flex items-center justify-center'} variant="gray" onClick={handleGoogleLogin}><FcGoogle className='mr-2 w-6 h-6'/>Login dengan google</Button>
+          {/* <GoogleLogin
             onSuccess={async (credentialResponse) => {
               try {
                 const id_token = credentialResponse.credential;
@@ -148,7 +149,7 @@ const LoginForm = () => {
             }}
             shape="pill"
             logo_alignment="center"
-          />
+          /> */}
           <ToastContainer/>
           <p className="text-center text-sm text-gray-500 mt-4">
             Belum punya akun? <Link to="/register" className="text-orange-500 hover:underline">Daftar</Link>

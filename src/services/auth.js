@@ -57,7 +57,7 @@ export const googleLogin = async (code) => {
 
 export const logout = async () => {
     try {
-        await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/logout`, { 
+        await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/logout`, {}, { 
             withCredentials: true 
         });
     } catch (error) {

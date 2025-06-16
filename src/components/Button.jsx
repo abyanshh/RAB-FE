@@ -13,6 +13,7 @@ const Button = ({
     font-semibold
     transition duration-200
     rounded-full
+    cursor-pointer
     ${className}
   `
 

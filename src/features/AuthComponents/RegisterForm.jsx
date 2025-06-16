@@ -160,7 +160,7 @@ const RegisterForm = () => {
           </form>
           {/* <Button className="w-full mb-2" variant="orange" onClick={handleRegisterLogin}>
             Login dengan google
-          </Button> */}
+          </Button>
 
           <GoogleLogin
             onSuccess={async (credentialResponse) => {
@@ -191,7 +191,7 @@ const RegisterForm = () => {
             text="signup_with"
             shape="pill"
             logo_alignment="center"
-          />
+          /> */}
 
           <ToastContainer />
 

@@ -94,7 +94,7 @@ const ProfilSaya = () => {
             <img
               src={preview || "image/image.png"}
               alt="Foto Profil"
-              className="w-full h-full rounded-full object-cover border-4 border-cyan-500 shadow-lg cursor-pointer group-hover:scale-105 transition-transform duration-300"
+              className="w-full h-full rounded-full object-cover shadow-lg cursor-pointer group-hover:scale-105 transition-transform duration-300"
               onClick={handleClickPhoto}
             />
             <input
@@ -106,19 +106,31 @@ const ProfilSaya = () => {
             />
             <div
               onClick={handleClickPhoto}
-              className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+              className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer scale-105"
             >
               <Camera className="w-8 h-8" />
             </div>
           </div>
 
           <div className="grid grid-cols-1 gap-2 text-gray-800 w-full">
-            <div className="rounded-md bg-white  hover:bg-cyan-500 hover:scale-105 px-3 py-2 duration-300"><span className="font-semibold">Username:</span> {user.username}</div>
-            <div className="rounded-md bg-white  hover:bg-cyan-500 hover:scale-105 px-3 py-2 duration-300"><span className="font-semibold">Email:</span> {user.email}</div>
-            <div className="rounded-md bg-white  hover:bg-cyan-500 hover:scale-105 px-3 py-2 duration-300"><span className="font-semibold">Nama Lengkap:</span> {user.full_name}</div>
-            <div className="rounded-md bg-white  hover:bg-cyan-500 hover:scale-105 px-3 py-2 duration-300"><span className="font-semibold">No. HP:</span> {user.phone_number}</div>
-            <div className="rounded-md bg-white  hover:bg-cyan-500 hover:scale-105 px-3 py-2 duration-300"><span className="font-semibold">Alamat:</span> {user.alamat}</div>
-            <div className="rounded-md bg-white  hover:bg-cyan-500 hover:scale-105 px-3 py-2 duration-300"><span className="font-semibold">Tanggal Lahir:</span> {user?.tanggal_lahir?.slice(0, 10)}</div>
+            <div className="rounded-md bg-white hover:bg-cyan-500 hover:scale-105 px-3 py-2 duration-300">
+              <span className="font-semibold inline-block w-32 mr-2">Username</span>:  {user.username}
+            </div>
+            <div className="rounded-md bg-white hover:bg-cyan-500 hover:scale-105 px-3 py-2 duration-300">
+              <span className="font-semibold inline-block w-32 mr-2">Email</span>: {user.email}
+            </div>
+            <div className="rounded-md bg-white hover:bg-cyan-500 hover:scale-105 px-3 py-2 duration-300">
+              <span className="font-semibold inline-block w-32 mr-2">Nama Lengkap</span>: {user.full_name}
+            </div>
+            <div className="rounded-md bg-white hover:bg-cyan-500 hover:scale-105 px-3 py-2 duration-300">
+              <span className="font-semibold inline-block w-32 mr-2">No. HP</span>: {user.phone_number}
+            </div>
+            <div className="rounded-md bg-white hover:bg-cyan-500 hover:scale-105 px-3 py-2 duration-300">
+              <span className="font-semibold inline-block w-32 mr-2">Alamat</span>: {user.alamat}
+            </div>
+            <div className="rounded-md bg-white hover:bg-cyan-500 hover:scale-105 px-3 py-2 duration-300">
+              <span className="font-semibold inline-block w-32 mr-2">Tanggal Lahir</span>: {user?.tanggal_lahir?.slice(0, 10)}
+            </div>
           </div>
         </div>
 

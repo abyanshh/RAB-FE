@@ -46,7 +46,7 @@ const fadeUp = {
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.2, duration: 1 }
+    transition: { delay: i * 0.2, duration: 1.2 }
   })
 };
 
@@ -84,7 +84,7 @@ const HeroSection = () => {
 
   return (
     <motion.section
-      className="flex flex-col-reverse md:flex-row items-center gap-10 max-w-6xl mx-auto px-4"
+      className="flex flex-col-reverse md:flex-row items-center gap-10 max-w-6xl mx-auto p-4"
       initial="hidden"
       animate="visible"
       variants={fadeUp}
@@ -188,8 +188,8 @@ const SecondSection = () => {
         <motion.div
           className="flex-1 bg-gray-50 p-6 rounded-xl shadow-md"
           key={selected.name}
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
           <img src={selected.img} alt={selected.name} className="rounded-md w-full h-64 object-cover mb-4" />
