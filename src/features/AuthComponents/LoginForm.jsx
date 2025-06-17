@@ -117,7 +117,7 @@ const LoginForm = () => {
 
             <Button className={'w-full mb-2'} variant="orange">Login</Button>
           </form>
-          <Button className={'w-full mb-2 flex items-center justify-center'} variant="gray" onClick={handleGoogleLogin}><FcGoogle className='mr-2 w-6 h-6'/>Login dengan google</Button>
+          {/* <Button className={'w-full mb-2 flex items-center justify-center'} variant="gray" onClick={handleGoogleLogin}><FcGoogle className='mr-2 w-6 h-6'/>Login dengan google</Button> */}
           {/* <GoogleLogin
             onSuccess={async (credentialResponse) => {
               try {
